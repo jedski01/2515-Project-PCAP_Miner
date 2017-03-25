@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
@@ -16,8 +21,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Circle?>
 
-
-<AnchorPane prefHeight="846.0" prefWidth="1587.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pcap_analyzer.Controller">
+<AnchorPane prefHeight="846.0" prefWidth="1587.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pcap_analyzer.Controller">
    <children>
       <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
@@ -121,36 +125,13 @@
       </TitledPane>
       <TitledPane animated="false" layoutX="328.0" layoutY="46.0" prefHeight="774.0" prefWidth="705.0" text="Conversations" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="328.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="46.0">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="742.0" prefWidth="722.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="701.0" prefWidth="1231.0">
                <children>
                   <TabPane prefHeight="743.0" prefWidth="705.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <tabs>
-                      <Tab text="Ethernet">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <TableView layoutY="6.0" prefHeight="200.0" prefWidth="678.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
-                                      <columns>
-                                        <TableColumn prefWidth="97.0" text="Address A" />
-                                        <TableColumn prefWidth="91.0" text="Address B" />
-                                          <TableColumn minWidth="7.0" text="Packets " />
-                                          <TableColumn minWidth="2.0" prefWidth="70.0" text="Bytes" />
-                                          <TableColumn prefWidth="125.0" text="Packets A-B" />
-                                          <TableColumn prefWidth="93.0" text="Bytes A-B" />
-                                          <TableColumn prefWidth="93.0" text="Packets B-A" />
-                                          <TableColumn prefWidth="93.0" text="Bytes B-A" />
-                                          <TableColumn prefWidth="93.0" text="Duration" />
-                                          <TableColumn prefWidth="93.0" text="bps A-B" />
-                                          <TableColumn prefWidth="93.0" text="bps B-A" />
-                                      </columns>
-                                    </TableView>
-                                 </children>
-                              </AnchorPane>
-                        </content>
-                      </Tab>
-                      <Tab text="WLAN">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <Tab text="Ethernet">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
                                     <TableView prefHeight="200.0" prefWidth="678.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
                                        <columns>
@@ -169,8 +150,8 @@
                                     </TableView>
                                  </children>
                               </AnchorPane>
-                        </content>
-                      </Tab>
+                           </content>
+                        </Tab>
                         <Tab text="IPV4">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -218,6 +199,32 @@
                            </content>
                         </Tab>
                         <Tab text="TCP">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <TableView layoutX="-9.0" layoutY="45.0" prefHeight="636.0" prefWidth="1212.0" AnchorPane.bottomAnchor="58.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
+                                       <columns>
+                                          <TableColumn prefWidth="97.0" text="Address A" />
+                                          <TableColumn prefWidth="93.0" text="Port A" />
+                                          <TableColumn prefWidth="91.0" text="Address B" />
+                                          <TableColumn prefWidth="93.0" text="Port B" />
+                                          <TableColumn minWidth="7.0" text="Packets " />
+                                          <TableColumn minWidth="2.0" prefWidth="70.0" text="Bytes" />
+                                          <TableColumn prefWidth="125.0" text="Packets A-B" />
+                                          <TableColumn prefWidth="93.0" text="Bytes A-B" />
+                                          <TableColumn prefWidth="93.0" text="Packets B-A" />
+                                          <TableColumn prefWidth="93.0" text="Bytes B-A" />
+                                          <TableColumn prefWidth="93.0" text="Duration" />
+                                          <TableColumn prefWidth="93.0" text="bps A-B" />
+                                          <TableColumn prefWidth="93.0" text="bps B-A" />
+                                       </columns>
+                                    </TableView>
+                                    <Button layoutX="1106.0" layoutY="661.0" mnemonicParsing="false" text="Follow Stream" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                        <Tab text="UDP">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>

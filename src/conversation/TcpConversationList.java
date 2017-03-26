@@ -13,6 +13,13 @@ import java.util.ArrayList;
 //TODO [jed] : implement tcp conversation. NOTE add follow tcp stream feature
 public class TcpConversationList extends ConversationList {
 
+    private static ConversationList instance = new TcpConversationList();
+
+    private TcpConversationList(){}
+
+    public static ConversationList getInstance() {
+        return instance;
+    }
     @Override
     public ArrayList<String[]> getSummarizedList() {
         return null;
@@ -21,6 +28,8 @@ public class TcpConversationList extends ConversationList {
 
     @Override
     public void showConversation() {
-
+        System.out.println("******************************");
+        System.out.println("TCP CONVERSATIONS");
+        System.out.println("******************************");
     }
 }

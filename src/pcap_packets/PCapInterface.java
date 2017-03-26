@@ -30,10 +30,8 @@ public class PCapInterface {
     public static boolean loadFromFile(String filename)  throws PcapNativeException, NotOpenException{
         packetCount = 0;
 
-        String PCAP_FILE_KEY
-                = PCapInterface.class.getName() + ".pcapFile";
-        String PCAP_FILE
-                = System.getProperty(PCAP_FILE_KEY, filename);
+        String PCAP_FILE_KEY = PCapInterface.class.getName() + ".pcapFile";
+        String PCAP_FILE = System.getProperty(PCAP_FILE_KEY, filename);
 
         PcapHandle handle;
         try {
@@ -100,7 +98,7 @@ public class PCapInterface {
 
         try {
             //CHANGES THIS FILENAME IF YOU WANT TO TEST FILES
-            loadFromFile("sample files/smallFlows.pcap");
+            loadFromFile("sample files/test.pcap");
 
             System.out.printf("Total number of packets : %d%n", getPacketCount());
             conversationManager.viewConversation();

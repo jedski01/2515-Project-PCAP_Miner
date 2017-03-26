@@ -13,6 +13,13 @@ import java.util.ArrayList;
 //TODO [jed] : implement udp conversation
 public class UdpConversationList extends ConversationList {
 
+    private static ConversationList instance = new UdpConversationList();
+
+    private UdpConversationList() {}
+
+    public static ConversationList getInstance() {
+        return instance;
+    }
     @Override
     public ArrayList<String[]> getSummarizedList() {
         return null;
@@ -20,6 +27,8 @@ public class UdpConversationList extends ConversationList {
 
     @Override
     public void showConversation() {
-
+        System.out.println("******************************");
+        System.out.println("UDP CONVERSATIONS");
+        System.out.println("******************************");
     }
 }

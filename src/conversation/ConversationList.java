@@ -1,5 +1,7 @@
 package conversation;
 
+import sun.plugin2.message.Conversation;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -48,11 +50,19 @@ public abstract class ConversationList {
         conversations.get(id).add(flow);
     }
 
+    public void reset() {
+        conversations.clear();
+    }
+
     public int getPacketCount(ConversationID id) {
         return conversations.get(id).size();
     }
 
     public abstract ArrayList<String[]> getSummarizedList();
+
+    public static ConversationList getInstance() {
+        return null;
+    }
 
     //for testing purposes. print the values in console
     public abstract void showConversation();

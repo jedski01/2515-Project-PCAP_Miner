@@ -3,6 +3,7 @@ package conversation;
 import pcap_packets.Protocol;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 
 /**
  * ConversationManager
@@ -14,11 +15,31 @@ import java.sql.Timestamp;
  */
 public class ConversationManager {
 
+    private HashMap<Protocol, ConversationList> conversations = new HashMap<>();
     private final static ConversationManager instance = new ConversationManager();
-    ConversationList ethernetConversation = new EthernetConversationList();
 
-    private ConversationManager() {}
+    private ConversationManager() {
 
+        for (Protocol protocol : Protocol.values()) {
+            conversations.put(protocol, createConversation(protocol));
+        }
+    }
+
+    public ConversationList getConversation(Protocol protocol) {
+            return conversations.get(protocol);
+    }
+
+    private ConversationList createConversation(Protocol protocol) {
+
+        switch (protocol) {
+            case ETHERNET: return EthernetConversationList.getInstance();
+            case IPV4: return Ipv4ConversationList.getInstance();
+            case IPV6: return Ipv6ConversationList.getInstance();
+            case TCP: return TcpConversationList.getInstance();
+            case UDP: return UdpConversationList.getInstance();
+        }
+        return null;
+    }
     public static ConversationManager getInstance() {
         return instance;
     }
@@ -29,28 +50,38 @@ public class ConversationManager {
         ConversationID id = new ConversationID(addressA, addressB);
         ConversationFlow flow = new ConversationFlow(bytes, time);
 
-        switch (protocol) {
-            case ETHERNET:
-                ethernetConversation.add(id, flow);
-                break;
-            case IPV4:
-                break;
-            case IPV6:
-                break;
-            case TCP:
-                 break;
-            case UDP:
-                 break;
-
+        try {
+            conversations.get(protocol).add(id, flow);
+        } catch (NullPointerException e) {
+            System.out.printf("Conversation for %s does not exists. Skipping this protocol%n", protocol.toString());
         }
-        if(protocol == Protocol.ETHERNET) {
 
-        }
     }
 
     public void viewConversation() {
 
-        ethernetConversation.showConversation();
-        System.out.printf("Found %d conversations%n", ethernetConversation.getSize());
+        for (Protocol protocol : Protocol.values()) {
+            ConversationList convo = getConversation(protocol);
+            if (convo == null) {
+                System.err.printf("Conversation for %s not found%n", protocol.toString());
+                continue;
+            }
+            convo.showConversation();
+            System.out.printf("Found %d conversations%n", convo.getSize());
+        }
+
     }
+
+    public void resetAll() {
+
+        for (Protocol protocol : Protocol.values()) {
+            if (conversations.get(protocol) == null) {
+                System.err.printf("Conversation for %s not found%n", protocol.toString());
+                continue;
+            }
+            conversations.get(protocol).reset();
+        }
+    }
+
+
 }

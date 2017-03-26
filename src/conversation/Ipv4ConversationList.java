@@ -13,6 +13,13 @@ import java.util.HashMap;
  */
 public class Ipv4ConversationList extends ConversationList {
 
+    private static ConversationList instance = new Ipv4ConversationList();
+
+    private Ipv4ConversationList() {}
+
+    public static ConversationList getInstance() {
+        return instance;
+    }
 
     @Override
     public ArrayList<String[]> getSummarizedList() {
@@ -21,6 +28,8 @@ public class Ipv4ConversationList extends ConversationList {
 
     @Override
     public void showConversation() {
-
+        System.out.println("******************************");
+        System.out.println("IPV4 CONVERSATIONS");
+        System.out.println("******************************");
     }
 }

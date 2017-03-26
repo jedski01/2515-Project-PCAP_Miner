@@ -13,6 +13,14 @@ import java.util.ArrayList;
 //TODO [jed] : implement ipv6 conversation
 public class Ipv6ConversationList extends ConversationList {
 
+    private static ConversationList instance = new Ipv6ConversationList();
+
+    private Ipv6ConversationList(){}
+
+    public static ConversationList getInstance() {
+        return instance;
+    }
+
     @Override
     public ArrayList<String[]> getSummarizedList() {
         return null;
@@ -20,6 +28,8 @@ public class Ipv6ConversationList extends ConversationList {
 
     @Override
     public void showConversation() {
-
+        System.out.println("******************************");
+        System.out.println("IPV6 CONVERSATIONS");
+        System.out.println("******************************");
     }
 }

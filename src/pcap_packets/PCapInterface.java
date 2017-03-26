@@ -24,25 +24,16 @@ import conversation.ConversationManager;
 public class PCapInterface {
 
     private static ConversationManager conversationManager = ConversationManager.getInstance();
+    private static int packetCount;
 
     //TODO [jed] : implement this. Parsing starts here
-    public static boolean loadFromFile(String filename) {
-        //prase the pcap file here
-
-        //read the file
-        //loop through all the packets
-
-        return true;
-    }
-
-    //TEST function
-    public static void main(String[] args) throws PcapNativeException, NotOpenException {
-
+    public static boolean loadFromFile(String filename)  throws PcapNativeException, NotOpenException{
+        packetCount = 0;
 
         String PCAP_FILE_KEY
                 = PCapInterface.class.getName() + ".pcapFile";
         String PCAP_FILE
-                = System.getProperty(PCAP_FILE_KEY, "sample files/smallFlows.pcap");
+                = System.getProperty(PCAP_FILE_KEY, filename);
 
         PcapHandle handle;
         try {
@@ -86,9 +77,6 @@ public class PCapInterface {
                 if (packet.contains(UdpPacket.class)) {
                     //System.out.println("Found tcp packet!");
                 }
-
-
-
             } catch (TimeoutException e) {
                 System.out.println("exception thrown");
             } catch (EOFException e) {
@@ -99,11 +87,29 @@ public class PCapInterface {
             packetCount++;
         }
 
-        System.out.printf("Total packets : %d%n", packetCount);
-        conversationManager.viewConversation();
-
         handle.close();
 
+        return true;
+    }
+
+    public static int getPacketCount() {
+        return packetCount;
+    }
+    //TEST function
+    public static void main(String[] args) {
+
+        try {
+            //CHANGES THIS FILENAME IF YOU WANT TO TEST FILES
+            loadFromFile("sample files/smallFlows.pcap");
+
+            System.out.printf("Total number of packets : %d%n", getPacketCount());
+            conversationManager.viewConversation();
+
+        } catch (PcapNativeException e) {
+            e.printStackTrace();
+        } catch (NotOpenException e) {
+            e.printStackTrace();
+        }
 
     }
 }

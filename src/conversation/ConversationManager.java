@@ -29,8 +29,22 @@ public class ConversationManager {
         ConversationID id = new ConversationID(addressA, addressB);
         ConversationFlow flow = new ConversationFlow(bytes, time);
 
+        switch (protocol) {
+            case ETHERNET:
+                ethernetConversation.add(id, flow);
+                break;
+            case IPV4:
+                break;
+            case IPV6:
+                break;
+            case TCP:
+                 break;
+            case UDP:
+                 break;
+
+        }
         if(protocol == Protocol.ETHERNET) {
-            ethernetConversation.add(id, flow);
+
         }
     }
 

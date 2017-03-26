@@ -2,6 +2,8 @@ package conversation;
 
 import pcap_packets.Protocol;
 
+import java.sql.Timestamp;
+
 /**
  * ConversationManager
  * ACIT 2515 Activity name
@@ -22,7 +24,7 @@ public class ConversationManager {
     }
 
     public void addFlow(Protocol protocol, String addressA, String addressB,
-                        int bytes, double time) {
+                        int bytes, Timestamp time) {
 
         ConversationID id = new ConversationID(addressA, addressB);
         ConversationFlow flow = new ConversationFlow(bytes, time);

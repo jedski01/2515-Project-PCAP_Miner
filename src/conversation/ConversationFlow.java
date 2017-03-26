@@ -1,5 +1,7 @@
 package conversation;
 
+import java.sql.Timestamp;
+
 /**
  * ConversationFlow
  * ACIT 2515 Activity name
@@ -11,10 +13,10 @@ package conversation;
 public class ConversationFlow {
 
     private int bytes;
-    private double time;
+    private Timestamp time;
     private boolean reverse;
 
-    public ConversationFlow(int bytes, double time) {
+    public ConversationFlow(int bytes, Timestamp time) {
 
         this.reverse = false;
         this.bytes = bytes;
@@ -25,7 +27,7 @@ public class ConversationFlow {
         return reverse;
     }
 
-    public double getTime() {
+    public Timestamp getTime() {
         return time;
     }
 

@@ -1,6 +1,7 @@
 package pcap_packets;
 
 import java.io.EOFException;
+import java.sql.Timestamp;
 import java.util.concurrent.TimeoutException;
 
 import org.pcap4j.core.NotOpenException;
@@ -53,9 +54,12 @@ public class PCapInterface {
         while(true) {
             try {
                 Packet packet = handle.getNextPacketEx();
+                Timestamp time = handle.getTimestamp();
 
                 //check if packet has ethernet frame
                 if (packet.contains(EthernetPacket.class)) {
+                    //System.out.println(packet);
+
                     //System.out.println("Found ethernet frame");
                     //conversationManager.addFlow(Protocol.ETHERNET, packet);
                     EthernetPacket ethernetPacket = packet.get(EthernetPacket.class);
@@ -64,10 +68,7 @@ public class PCapInterface {
                     String addressA = ethernetHeader.getSrcAddr().toString();
                     String addressB = ethernetHeader.getDstAddr().toString();
                     int sizeInBytes = ethernetPacket.length();
-//                    System.out.println(addressA);
-//                    System.out.println(addressB);
-//                    System.out.println("Size in bytes : "+sizeInBytes);
-                    conversationManager.addFlow(Protocol.ETHERNET, addressA, addressB, sizeInBytes, 0);
+                    conversationManager.addFlow(Protocol.ETHERNET, addressA, addressB, sizeInBytes, time);
                 }
 
                 if (packet.contains(IpV6Packet.class)) {
@@ -85,6 +86,8 @@ public class PCapInterface {
                 if (packet.contains(UdpPacket.class)) {
                     //System.out.println("Found tcp packet!");
                 }
+
+
 
             } catch (TimeoutException e) {
                 System.out.println("exception thrown");

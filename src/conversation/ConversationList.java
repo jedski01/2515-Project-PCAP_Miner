@@ -54,6 +54,7 @@ public abstract class ConversationList {
 
     public abstract ArrayList<String[]> getSummarizedList();
 
+    //for testing purposes. print the values in console
     public abstract void showConversation();
 
 }

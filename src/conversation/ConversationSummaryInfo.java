@@ -1,5 +1,9 @@
 package conversation;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * ConversationSummaryInfo
  * ACIT 2515 Activity name
@@ -14,8 +18,7 @@ public class ConversationSummaryInfo {
     private int packetsBToA = 0;
     private int bytesAToB = 0;
     private int bytesBToA = 0;
-    private double startTime = 0;
-    private double endTime = 0;
+    private double duration;
 
 
     public int getTotalPackets() {
@@ -42,17 +45,25 @@ public class ConversationSummaryInfo {
     }
 
     public double getDuration() {
-        return endTime - startTime;
+        return duration;
     }
 
     public double getBpsAToB() {
-        //return bytesAToB * 8 / getDuration();
-        return 0;
+        return bytesAToB * 8 / getDuration();
     }
 
     public double getBpsBToA() {
-        //return bytesBToA * 8 / getDuration();
-        return 0;
+        return bytesBToA * 8 / getDuration();
+    }
+
+    public void setDuration(Timestamp start, Timestamp end) {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("ss S");
+        Date firstParsedDate = start;
+        Date secondParsedDate = end;
+        long resultInNano = secondParsedDate.getTime() - firstParsedDate.getTime();
+        duration = (double)resultInNano / 1000;
+
     }
 
     public void incrementPacketCount(boolean reverse) {

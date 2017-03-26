@@ -58,6 +58,15 @@ public class ConversationManager {
 
     }
 
+    public void addFlow(Protocol protocol, String addressA, String addressB, Integer portA, Integer portB,
+                        int bytes, Timestamp time) {
+
+        String addressAEx = addressA + "port" +portA;
+        String addressBEx = addressB + "port" +portB;
+
+        addFlow(protocol, addressAEx, addressBEx, bytes, time);
+    }
+
     public void viewConversation() {
 
         for (Protocol protocol : Protocol.values()) {

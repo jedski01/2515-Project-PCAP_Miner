@@ -37,7 +37,6 @@ public class PCapInterface {
     //TEST function
     public static void main(String[] args) throws PcapNativeException, NotOpenException {
 
-         int COUNT = 5;
 
         String PCAP_FILE_KEY
                 = PCapInterface.class.getName() + ".pcapFile";
@@ -55,34 +54,36 @@ public class PCapInterface {
             try {
                 Packet packet = handle.getNextPacketEx();
 
-                //TODO [jed] read layer by layer
-                if (packet.contains(PppPacket.class)) {
-                    System.out.print("found PPP -->>");
-                    Packet payload = packet.getPayload();
-
-                    if (payload != null) {
-                        if (payload.contains(IcmpV6CommonPacket.class)) {
-                            System.out.print("found ICMP frame -->>");
-                        }
-
-                        if (payload.contains(IpV6Packet.class)) {
-                            System.out.print("Found IPV6 frame -->>");
-                        }
-
-                        if (payload.contains(IpV4Packet.class)) {
-                            System.out.print("Found IPV4 frame  -->>");
-                        }
-                    }
-
-                } else if (packet.contains(EthernetPacket.class)) {
-                    System.out.println("Found ethernet frame");
+                //check if packet has ethernet frame
+                if (packet.contains(EthernetPacket.class)) {
+                    //System.out.println("Found ethernet frame");
                     //conversationManager.addFlow(Protocol.ETHERNET, packet);
-                    String addressA = packet.get(EthernetPacket.class).getHeader().getSrcAddr().toString();
-                    String addressB = packet.get(EthernetPacket.class).getHeader().getDstAddr().toString();
-                    conversationManager.addFlow(Protocol.ETHERNET, addressA, addressB, 0, 0, 0);
+                    EthernetPacket ethernetPacket = packet.get(EthernetPacket.class);
+                    EthernetPacket.EthernetHeader ethernetHeader = ethernetPacket.getHeader();
+
+                    String addressA = ethernetHeader.getSrcAddr().toString();
+                    String addressB = ethernetHeader.getDstAddr().toString();
+                    int sizeInBytes = ethernetPacket.length();
+//                    System.out.println(addressA);
+//                    System.out.println(addressB);
+//                    System.out.println("Size in bytes : "+sizeInBytes);
+                    conversationManager.addFlow(Protocol.ETHERNET, addressA, addressB, sizeInBytes, 0);
                 }
-                else {
-                    System.out.println("Found wireless");
+
+                if (packet.contains(IpV6Packet.class)) {
+                    //System.out.println("found ipv6 segment");
+                }
+
+                if (packet.contains(IpV4Packet.class)) {
+                    //System.out.println("found ipv4 segment");
+                }
+
+                if (packet.contains(TcpPacket.class)) {
+                    //System.out.println("Found tcp packet!");
+                }
+
+                if (packet.contains(UdpPacket.class)) {
+                    //System.out.println("Found tcp packet!");
                 }
 
             } catch (TimeoutException e) {

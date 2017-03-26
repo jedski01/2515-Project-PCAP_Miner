@@ -36,32 +36,24 @@ public abstract class ConversationList {
 
     public void add(ConversationID id, ConversationFlow flow) {
 
-        if(conversations.containsKey(id)) {
-            //add normally
-            conversations.get(id).add(flow);
+        if(conversations.containsKey(id.reverse())) {
+            flow.setReverse(true);
+            id = id.reverse();
         }
-        else if(conversations.containsKey(id.reverse())) {
-            //add with flow reversed
-        }
-        else {
+
+        else if(!conversations.containsKey(id)) {
             conversations.put(id, new ArrayList<ConversationFlow>());
-            conversations.get(id).add(flow);
         }
+
+        conversations.get(id).add(flow);
     }
 
     public int getPacketCount(ConversationID id) {
         return conversations.get(id).size();
     }
 
-    public void showConversation() {
-
-        Set<ConversationID> ids = conversations.keySet();
-
-        for (ConversationID id : ids) {
-            System.out.println(id);
-        }
-    }
-
     public abstract ArrayList<String[]> getSummarizedList();
+
+    public abstract void showConversation();
 
 }

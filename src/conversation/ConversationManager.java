@@ -22,10 +22,11 @@ public class ConversationManager {
     }
 
     public void addFlow(Protocol protocol, String addressA, String addressB,
-                        int bytesAToB, int bytesBToA, double time) {
+                        int bytes, double time) {
 
         ConversationID id = new ConversationID(addressA, addressB);
-        ConversationFlow flow = new ConversationFlow(bytesAToB, bytesBToA, time);
+        ConversationFlow flow = new ConversationFlow(bytes, time);
+
         if(protocol == Protocol.ETHERNET) {
             ethernetConversation.add(id, flow);
         }

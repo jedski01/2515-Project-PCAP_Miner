@@ -17,4 +17,9 @@ public class TcpConversationList extends ConversationList {
     public ArrayList<String[]> getSummarizedList() {
         return null;
     }
+
+    @Override
+    public void showConversation() {
+
+    }
 }

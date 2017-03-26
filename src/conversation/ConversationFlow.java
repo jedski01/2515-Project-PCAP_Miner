@@ -10,63 +10,31 @@ package conversation;
  */
 public class ConversationFlow {
 
-    private int bytesAToB;
-    private int bytesBtoA;
-    private int packetsAToB;
-    private int packetsBToA;
-
+    private int bytes;
     private double time;
-    private double bpsAToB;
-    private double bpsBToA;
+    private boolean reverse;
 
-    public ConversationFlow(int bytesAToB, int bytesBtoA, double time) {
+    public ConversationFlow(int bytes, double time) {
 
-
-        this.bytesAToB = bytesAToB;
-        this.bytesBtoA = bytesBtoA;
-        this.packetsAToB = packetsAToB;
-        this.packetsBToA = packetsBToA;
+        this.reverse = false;
+        this.bytes = bytes;
         this.time = time;
-
     }
 
-
-    public int getBytes() {
-        return bytesAToB + bytesBtoA;
-    }
-
-    public int getBytesAToB() {
-        return bytesAToB;
-    }
-
-    public int getBytesBtoA() {
-        return bytesBtoA;
+    public boolean isReversed() {
+        return reverse;
     }
 
     public double getTime() {
         return time;
     }
 
-    public double getBpsAToB() {
-        return bpsAToB;
+    public int getBytes() {
+        return bytes;
     }
 
-    public double getBpsBToA() {
-        return bpsBToA;
+    public void setReverse(boolean reverse) {
+        this.reverse = reverse;
     }
-
-    public int getPacketsAToB() {
-        return packetsAToB;
-    }
-
-    public int getPacketsBToA() {
-        return packetsBToA;
-    }
-
-    public ConversationFlow reverse() {
-
-        return new ConversationFlow(this.bytesBtoA, this.bytesAToB, this.time);
-    }
-
 
 }

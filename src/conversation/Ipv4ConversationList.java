@@ -18,4 +18,9 @@ public class Ipv4ConversationList extends ConversationList {
     public ArrayList<String[]> getSummarizedList() {
         return null;
     }
+
+    @Override
+    public void showConversation() {
+
+    }
 }

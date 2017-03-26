@@ -28,6 +28,7 @@ public class ConversationSummaryInfo {
     public int getTotalBytes() {
         return bytesAToB + bytesBToA;
     }
+
     public int getPacketsAToB() {
         return packetsAToB;
     }

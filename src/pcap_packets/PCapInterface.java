@@ -24,6 +24,7 @@ import conversation.ConversationManager;
 public class PCapInterface {
 
     private static ConversationManager conversationManager = ConversationManager.getInstance();
+    //declare statistics variables here
     private static int packetCount;
 
     //TODO [jed] : implement this. Parsing starts here
@@ -39,12 +40,12 @@ public class PCapInterface {
         } catch (PcapNativeException e) {
             handle = Pcaps.openOffline(PCAP_FILE);
         }
-        int packetCount = 0;
         while(true) {
             try {
                 Packet packet = handle.getNextPacketEx();
                 Timestamp time = handle.getTimestamp();
 
+                //TODO [anyone] : we could probably simplify this conditionals, all of them are doing the same thing
                 //check if packet has ethernet frame
                 if (packet.contains(EthernetPacket.class)) {
                     //System.out.println(packet);
@@ -56,18 +57,36 @@ public class PCapInterface {
 
                     String addressA = ethernetHeader.getSrcAddr().toString();
                     String addressB = ethernetHeader.getDstAddr().toString();
-                    int sizeInBytes = ethernetPacket.length();
+                    int sizeInBytes = packet.length();
                     conversationManager.addFlow(Protocol.ETHERNET, addressA, addressB, sizeInBytes, time);
                 }
 
                 if (packet.contains(IpV6Packet.class)) {
                     //System.out.println("found ipv6 segment");
+                    IpV6Packet ipv6Packet = packet.get(IpV6Packet.class);
+                    IpV6Packet.IpV6Header ipV6Header = ipv6Packet.getHeader();
+
+                    String addressA = ipV6Header.getSrcAddr().toString();
+                    String addressB = ipV6Header.getDstAddr().toString();
+                    //FIXME [anyone] : length doesn't seem right. bytes does not match up with wireshark values
+                    int sizeInBytes = packet.length();
+                    conversationManager.addFlow(Protocol.IPV6, addressA, addressB, sizeInBytes, time);
                 }
 
                 if (packet.contains(IpV4Packet.class)) {
                     //System.out.println("found ipv4 segment");
-                }
 
+                    IpV4Packet ipv4Packet = packet.get(IpV4Packet.class);
+                    IpV4Packet.IpV4Header ipV4Header = ipv4Packet.getHeader();
+
+                    String addressA = ipV4Header.getSrcAddr().toString();
+                    String addressB = ipV4Header.getDstAddr().toString();
+                    //FIXME [anyone] : length doesn't seem right. bytes does not match up with wireshark values
+                    int sizeInBytes = packet.length();
+                    conversationManager.addFlow(Protocol.IPV4, addressA, addressB, sizeInBytes, time);
+                }
+                //TODO [anyone] : implement remaining protocols
+                //TODO [anyone] : check if port is already in address, if so, separate it from the address
                 if (packet.contains(TcpPacket.class)) {
                     //System.out.println("Found tcp packet!");
                 }
@@ -97,8 +116,8 @@ public class PCapInterface {
     public static void main(String[] args) {
 
         try {
-            //CHANGES THIS FILENAME IF YOU WANT TO TEST FILES
-            loadFromFile("sample files/test.pcap");
+            //CHANGE THIS FILENAME IF YOU WANT TO TEST FILES
+            loadFromFile("sample files/iperf-mptcp-0-0.pcap");
 
             System.out.printf("Total number of packets : %d%n", getPacketCount());
             conversationManager.viewConversation();

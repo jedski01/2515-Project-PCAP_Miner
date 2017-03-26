@@ -46,8 +46,8 @@ public class Ipv4ConversationList extends ConversationList {
             fields[PACKETS_A_B_FIELD] = String.format("%d", summaryInfo.getPacketsAToB());
             fields[PACKETS_B_A_FIELD] = String.format("%d", summaryInfo.getPacketsBToA());
             fields[DURATION_FIELD] = String.format("%.5f", summaryInfo.getDuration());
-            fields[BPS_A_B_FIELD] = String.format("%.5f", summaryInfo.getBpsAToB());
-            fields[BPS_B_A_FIELD] = String.format("%.5f", summaryInfo.getBpsBToA());
+            fields[BPS_A_B_FIELD] = String.format("%.2f", summaryInfo.getBpsAToB());
+            fields[BPS_B_A_FIELD] = String.format("%.2f", summaryInfo.getBpsBToA());
 
             result.add(fields);
         }

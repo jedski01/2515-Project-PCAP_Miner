@@ -19,7 +19,9 @@ public class ConversationSummaryInfo {
     private int bytesAToB = 0;
     private int bytesBToA = 0;
     private double duration;
-
+    private int max_ttl = 0;
+    private int min_ttl = 255;
+    private int ttls = 0;
 
     public int getTotalPackets() {
         return packetsAToB + packetsBToA;
@@ -60,6 +62,31 @@ public class ConversationSummaryInfo {
 
         if(getDuration() == 0) return 0;
         return bytesBToA * 8 / getDuration();
+    }
+
+    public int getMinTTL() {
+        return min_ttl;
+    }
+
+    public int getMaxTTL() {
+        return max_ttl;
+    }
+
+    public int getAvgTTL() {
+        return ttls/getTotalPackets();
+    }
+
+    public void setTTL(int ttl) {
+
+        if (ttl < min_ttl) {
+            min_ttl = ttl;
+        }
+
+        if (ttl > max_ttl) {
+            max_ttl = ttl;
+        }
+
+        ttls += ttl;
     }
 
     public void setDuration(Timestamp start, Timestamp end) {
@@ -108,5 +135,7 @@ public class ConversationSummaryInfo {
             bytesAToB += size;
         }
     }
+
+
 
 }

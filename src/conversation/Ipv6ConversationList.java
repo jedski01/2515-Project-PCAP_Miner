@@ -47,6 +47,9 @@ public class Ipv6ConversationList extends ConversationList {
             fields[DURATION_FIELD] = String.format("%.4f", summaryInfo.getDuration());
             fields[BPS_A_B_FIELD] = String.format("%.2f", summaryInfo.getBpsAToB());
             fields[BPS_B_A_FIELD] = String.format("%.2f", summaryInfo.getBpsBToA());
+            fields[MIN_TTL_FIELD] = String.format("%d", summaryInfo.getMinTTL());
+            fields[MAX_TTL_FIELD] = String.format("%d", summaryInfo.getMaxTTL());
+            fields[AVG_TTL_FIELD] = String.format("%d", summaryInfo.getAvgTTL());
 
             result.add(fields);
         }
@@ -58,20 +61,20 @@ public class Ipv6ConversationList extends ConversationList {
     public void showConversation() {
         ArrayList<String[]> result = getSummarizedList();
 
-        String format = "%-3s %-30s %-30s %-10s %-10s %-15s %-15s %-15s %-15s %-10s %-15s %-15s%n";
+        String format = "%-3s %-30s %-30s %-10s %-10s %-15s %-15s %-15s %-15s %-10s %-15s %-15s %-10s %-10s %-10s%n";
 
         System.out.println("******************************");
         System.out.println("IPV6 CONVERSATIONS");
         System.out.println("******************************");
 
         System.out.printf(format, "No", "Address A", "Address B", "Packets", "Bytes", "Packets A->B", "Packets B->A",
-                "Bytes A->B", "Bytes B->A", "Duration", "bps A->B", "bps B->A");
+                "Bytes A->B", "Bytes B->A", "Duration", "bps A->B", "bps B->A", "Min Hop", "Max Hop", "Avg Hop");
         Integer index = 1;
         for (String[] entry : result) {
             System.out.printf(format, index.toString(), entry[ADDR_A_FIELD], entry[ADDR_B_FIELD],
                     entry[TOT_PACKETS_FIELD], entry[TOT_BYTES_FIELD], entry[PACKETS_A_B_FIELD], entry[PACKETS_B_A_FIELD],
                     entry[BYTES_A_B_FIELD], entry[BYTES_B_A_FIELD], entry[DURATION_FIELD], entry[BPS_A_B_FIELD],
-                    entry[BPS_B_A_FIELD]);
+                    entry[BPS_B_A_FIELD], entry[MIN_TTL_FIELD], entry[MAX_TTL_FIELD], entry[AVG_TTL_FIELD]);
             index++;
         }
     }
@@ -83,6 +86,7 @@ public class Ipv6ConversationList extends ConversationList {
         for (ConversationFlow flow : flows) {
             summaryInfo.incrementByteSize(flow.getBytes(), flow.isReversed());
             summaryInfo.incrementPacketCount(flow.isReversed());
+            summaryInfo.setTTL(flow.getTTL());
         }
         if (!flows.isEmpty()) {
             summaryInfo.setDuration(flows.get(0).getTime(), flows.get(flows.size()-1).getTime());

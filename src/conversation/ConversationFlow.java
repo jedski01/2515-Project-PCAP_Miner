@@ -15,12 +15,21 @@ public class ConversationFlow {
     private int bytes;
     private Timestamp time;
     private boolean reverse;
+    private int ttl;
 
     public ConversationFlow(int bytes, Timestamp time) {
 
         this.reverse = false;
         this.bytes = bytes;
         this.time = time;
+    }
+
+    public ConversationFlow(int bytes, Timestamp time, int ttl) {
+
+        this.reverse = false;
+        this.bytes = bytes;
+        this.time = time;
+        this.ttl = ttl;
     }
 
     public boolean isReversed() {
@@ -33,6 +42,10 @@ public class ConversationFlow {
 
     public int getBytes() {
         return bytes;
+    }
+
+    public int getTTL() {
+        return ttl;
     }
 
     public void setReverse(boolean reverse) {

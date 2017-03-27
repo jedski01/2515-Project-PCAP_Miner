@@ -67,6 +67,20 @@ public class ConversationManager {
         addFlow(protocol, addressAEx, addressBEx, bytes, time);
     }
 
+    public void addFlow(Protocol protocol, String addressA, String addressB,
+                        int bytes, Timestamp time, int ttl) {
+
+        ConversationID id = new ConversationID(addressA, addressB);
+        ConversationFlow flow = new ConversationFlow(bytes, time, ttl);
+
+        try {
+            conversations.get(protocol).add(id, flow);
+        } catch (NullPointerException e) {
+            System.out.printf("Conversation for %s does not exists. Skipping this protocol%n", protocol.toString());
+        }
+
+    }
+
     public void viewConversation() {
 
         for (Protocol protocol : Protocol.values()) {

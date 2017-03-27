@@ -31,6 +31,10 @@ public abstract class ConversationList {
     public final static int BPS_B_A_FIELD = 10;
     public final static int PORT_A_FIELD = 11;
     public final static int PORT_B_FIELD = 12;
+    public final static int MIN_TTL_FIELD = 11;
+    public final static int MAX_TTL_FIELD = 12;
+    public final static int AVG_TTL_FIELD = 13;
+
 
     public int getSize() {
         return conversations.size();

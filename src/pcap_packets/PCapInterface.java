@@ -202,7 +202,7 @@ public class PCapInterface {
 
         try {
             //CHANGE THIS FILENAME IF YOU WANT TO TEST FILES
-            loadFromFile("sample files/test.pcap");
+            loadFromFile("sample.pcap");
 
             System.out.println("********************");
             System.out.println("SUMMARY");

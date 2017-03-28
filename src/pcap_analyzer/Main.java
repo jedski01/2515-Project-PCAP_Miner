@@ -12,7 +12,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("pcap_analyzer.fxml"));
         primaryStage.setTitle("Super PCAP Analyzer");
-        primaryStage.setScene(new Scene(root, 1059, 686));
+        primaryStage.setScene(new Scene(root, 1204, 686));
         primaryStage.show();
     }
     public static void main(String[] args) {

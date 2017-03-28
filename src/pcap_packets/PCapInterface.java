@@ -32,7 +32,7 @@ public class PCapInterface {
     private static int tcpCount;
     private static int ipv4Count;
     private static int ipv6Count;
-
+    //TODO [jed] average packet length , average packet size
     public static boolean loadFromFile(String filename)  throws PcapNativeException, NotOpenException{
         resetCounters();
 

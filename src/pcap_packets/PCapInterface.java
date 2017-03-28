@@ -25,7 +25,7 @@ import org.pcap4j.packet.namednumber.UdpPort;
  */
 public class PCapInterface {
 
-    private static ConversationManager conversationManager = ConversationManager.getInstance();
+    public static ConversationManager conversationManager = ConversationManager.getInstance();
     //declare statistics variables here
     private static int packetCount;
     private static int udpCount;
@@ -33,7 +33,6 @@ public class PCapInterface {
     private static int ipv4Count;
     private static int ipv6Count;
 
-    //TODO [jed] : implement this. Parsing starts here
     public static boolean loadFromFile(String filename)  throws PcapNativeException, NotOpenException{
         resetCounters();
 
@@ -52,6 +51,7 @@ public class PCapInterface {
                 Timestamp time = handle.getTimestamp();
                 String addressA = "";
                 String addressB = "";
+
                 //TODO [anyone] : we could probably simplify this conditionals, all of them are doing the same thing
                 // READ LAYER 1
                 //check if packet has ethernet frame
@@ -152,6 +152,7 @@ public class PCapInterface {
                     int sizeInBytes = packet.length();
                     conversationManager.addFlow(Protocol.TCP, addressA, addressB,
                             portA.valueAsInt(), portB.valueAsInt(), sizeInBytes, time);
+
                 }
 
                 if (packet.contains(UdpPacket.class)) {
@@ -197,28 +198,5 @@ public class PCapInterface {
     public static int getIPv4Count() { return ipv4Count; }
     public static int getIPv6Count() { return ipv6Count; }
 
-    //TEST function
-    public static void main(String[] args) {
-
-        try {
-            //CHANGE THIS FILENAME IF YOU WANT TO TEST FILES
-            loadFromFile("sample.pcap");
-
-            System.out.println("********************");
-            System.out.println("SUMMARY");
-            System.out.println("********************");
-            System.out.printf("Total number of packets : %d%n", getPacketCount());
-            System.out.printf("Total number of TCP packets : %d%n", getTCPCount());
-            System.out.printf("Total number of UDP Packets : %d%n", getUDPCount());
-            System.out.printf("Total number of IPv4 Packets : %d%n", getIPv4Count());
-            System.out.printf("Total number of IPv6 Packets : %d%n", getIPv6Count());
-            conversationManager.viewConversation();
-
-        } catch (PcapNativeException e) {
-            e.printStackTrace();
-        } catch (NotOpenException e) {
-            e.printStackTrace();
-        }
-    }
 
 }

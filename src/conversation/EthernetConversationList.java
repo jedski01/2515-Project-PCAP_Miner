@@ -23,14 +23,12 @@ public class EthernetConversationList extends ConversationList {
     }
 
     @Override
-    public ArrayList<String[]> getSummarizedList() {
+    public ArrayList<ConversationModel> getSummarizedList() {
 
-        ArrayList<String[]> result = new ArrayList<>();
+        ArrayList<ConversationModel> result = new ArrayList<>();
 
         Set<ConversationID> ids = conversations.keySet();
         for (ConversationID id : ids) {
-
-            String[] fields = new String[FIELD_COUNT];
 
             ArrayList<ConversationFlow> flows = conversations.get(id);
             String addressA = id.getAddressA();
@@ -51,33 +49,32 @@ public class EthernetConversationList extends ConversationList {
             cm.setBpsAToB(summaryInfo.getBpsAToB());
             cm.setBpsBToA(summaryInfo.getBpsBToA());
 
-            result.add(fields);
+            result.add(cm);
         }
 
         return result;
     }
 
-
-
     @Override
     public void showConversation() {
 
-        ArrayList<String[]> result = getSummarizedList();
+        ArrayList<ConversationModel> result = getSummarizedList();
 
-        String format = "%-3s %-20s %-20s %-10s %-10s %-15s %-15s %-15s %-15s %-10s %-15s %-15s%n";
+        String format = "%-3d %-20s %-20s %-10d %-10d %-15d %-15d %-15d %-15d %-10f %-15f %-15f%n";
 
         System.out.println("******************************");
         System.out.println("ETHERNET CONVERSATIONS");
         System.out.println("******************************");
 
-        System.out.printf(format, "No", "Address A", "Address B", "Packets", "Bytes", "Packets A->B", "Packets B->A",
+        System.out.printf("%-3s %-20s %-20s %-10s %-10s %-15s %-15s %-15s %-15s %-10s %-15s %-15s%n",
+                "No", "Address A", "Address B", "Packets", "Bytes", "Packets A->B", "Packets B->A",
                 "Bytes A->B", "Bytes B->A", "Duration", "bps A->B", "bps B->A");
         Integer index = 1;
-        for (String[] entry : result) {
-            System.out.printf(format, index.toString(), entry[ADDR_A_FIELD], entry[ADDR_B_FIELD],
-                    entry[TOT_PACKETS_FIELD], entry[TOT_BYTES_FIELD], entry[PACKETS_A_B_FIELD], entry[PACKETS_B_A_FIELD],
-                    entry[BYTES_A_B_FIELD], entry[BYTES_B_A_FIELD], entry[DURATION_FIELD], entry[BPS_A_B_FIELD],
-                    entry[BPS_B_A_FIELD]);
+        for (ConversationModel conv : result) {
+            System.out.printf(format, index, conv.getAddressA(), conv.getAddressB(), conv.getPackets(),
+                    conv.getBytes(), conv.getPacketsAToB(), conv.getPacketsBToA(), conv.getBytesAToB(),
+                    conv.getBytesBToA(), conv.getDuration(), conv.getBpsAToB(), conv.getBpsBToA());
+
             index++;
         }
     }

@@ -23,35 +23,35 @@ public class Ipv6ConversationList extends ConversationList {
     }
 
     @Override
-    public ArrayList<String[]> getSummarizedList() {
-        ArrayList<String[]> result = new ArrayList<>();
+    public ArrayList<ConversationModel> getSummarizedList() {
+        ArrayList<ConversationModel> result = new ArrayList<>();
 
         Set<ConversationID> ids = conversations.keySet();
         for (ConversationID id : ids) {
-            String[] fields = new String[FIELD_COUNT];
 
             ArrayList<ConversationFlow> flows = conversations.get(id);
             String addressA = id.getAddressA();
             String addressB = id.getAddressB();
 
             ConversationSummaryInfo summaryInfo = getSummaryInfo(flows);
+            ConversationModel cm = new ConversationModel();
 
-            fields[ADDR_A_FIELD] = addressA;
-            fields[ADDR_B_FIELD] = addressB;
-            fields[TOT_PACKETS_FIELD] = String.format("%d", summaryInfo.getTotalPackets());
-            fields[TOT_BYTES_FIELD] = String.format("%d", summaryInfo.getTotalBytes());
-            fields[BYTES_A_B_FIELD] = String.format("%d", summaryInfo.getBytesAToB());
-            fields[BYTES_B_A_FIELD] = String.format("%d", summaryInfo.getBytesBToA());
-            fields[PACKETS_A_B_FIELD] = String.format("%d", summaryInfo.getPacketsAToB());
-            fields[PACKETS_B_A_FIELD] = String.format("%d", summaryInfo.getPacketsBToA());
-            fields[DURATION_FIELD] = String.format("%.4f", summaryInfo.getDuration());
-            fields[BPS_A_B_FIELD] = String.format("%.2f", summaryInfo.getBpsAToB());
-            fields[BPS_B_A_FIELD] = String.format("%.2f", summaryInfo.getBpsBToA());
-            fields[MIN_TTL_FIELD] = String.format("%d", summaryInfo.getMinTTL());
-            fields[MAX_TTL_FIELD] = String.format("%d", summaryInfo.getMaxTTL());
-            fields[AVG_TTL_FIELD] = String.format("%d", summaryInfo.getAvgTTL());
+            cm.setAddressA(addressA);
+            cm.setAddressA(addressB);
+            cm.setPackets(summaryInfo.getTotalPackets());
+            cm.setBytes(summaryInfo.getTotalBytes());
+            cm.setBytesAToB(summaryInfo.getBytesAToB());
+            cm.setBytesBToA(summaryInfo.getBytesBToA());
+            cm.setPacketsAToB(summaryInfo.getPacketsAToB());
+            cm.setPacketsBToA(summaryInfo.getPacketsBToA());
+            cm.setDuration(summaryInfo.getDuration());
+            cm.setBpsAToB(summaryInfo.getBpsAToB());
+            cm.setBpsBToA(summaryInfo.getBpsBToA());
+            cm.setMinTTL(summaryInfo.getMinTTL());
+            cm.setMaxTTL(summaryInfo.getMaxTTL());
+            cm.setAvgTTL(summaryInfo.getAvgTTL());
 
-            result.add(fields);
+            result.add(cm);
         }
 
         return result;
@@ -59,22 +59,22 @@ public class Ipv6ConversationList extends ConversationList {
 
     @Override
     public void showConversation() {
-        ArrayList<String[]> result = getSummarizedList();
+        ArrayList<ConversationModel> result = getSummarizedList();
 
-        String format = "%-3s %-30s %-30s %-10s %-10s %-15s %-15s %-15s %-15s %-10s %-15s %-15s %-10s %-10s %-10s%n";
+        String format = "%-3d %-30s %-30s %-10d %-10d %-15d %-15d %-15d %-15d %-10f %-15d %-15d %-10d %-10d %-10d%n";
 
         System.out.println("******************************");
         System.out.println("IPV6 CONVERSATIONS");
         System.out.println("******************************");
 
-        System.out.printf(format, "No", "Address A", "Address B", "Packets", "Bytes", "Packets A->B", "Packets B->A",
-                "Bytes A->B", "Bytes B->A", "Duration", "bps A->B", "bps B->A", "Min Hop", "Max Hop", "Avg Hop");
+        System.out.printf("%-3s %-30s %-30s %-10s %-10s %-15s %-15s %-15s %-15s %-10s %-15s %-15s %-10s %-10s %-10s%n",
+                "No", "Address A", "Address B", "Packets", "Bytes", "Packets A->B", "Packets B->A",
+                "Bytes A->B", "Bytes B->A", "Duration", "bps A->B", "bps B->A", "Min TTL", "Max TTL", "Avg TTL");
         Integer index = 1;
-        for (String[] entry : result) {
-            System.out.printf(format, index.toString(), entry[ADDR_A_FIELD], entry[ADDR_B_FIELD],
-                    entry[TOT_PACKETS_FIELD], entry[TOT_BYTES_FIELD], entry[PACKETS_A_B_FIELD], entry[PACKETS_B_A_FIELD],
-                    entry[BYTES_A_B_FIELD], entry[BYTES_B_A_FIELD], entry[DURATION_FIELD], entry[BPS_A_B_FIELD],
-                    entry[BPS_B_A_FIELD], entry[MIN_TTL_FIELD], entry[MAX_TTL_FIELD], entry[AVG_TTL_FIELD]);
+        for (ConversationModel conv : result) {
+            System.out.printf(format, index, conv.getAddressA(), conv.getAddressB(), conv.getPackets(), conv.getBytes(),
+                    conv.getPacketsAToB(), conv.getPacketsBToA(), conv.getBytesAToB(), conv.getBytesBToA(),
+                    conv.getDuration(), conv.getBpsAToB(), conv.getBpsBToA(), conv.getMinTTL(), conv.getMaxTTL(), conv.getAvgTTL());
             index++;
         }
     }

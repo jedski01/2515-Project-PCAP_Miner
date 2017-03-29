@@ -62,7 +62,7 @@ public abstract class ConversationList {
         return conversations.get(id).size();
     }
 
-    public abstract ArrayList<String[]> getSummarizedList();
+    public abstract ArrayList<ConversationModel> getSummarizedList();
 
     public static ConversationList getInstance() {
         return null;

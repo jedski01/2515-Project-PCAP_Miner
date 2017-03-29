@@ -10,6 +10,7 @@ import javafx.scene.control.TableView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.pcap4j.core.NotOpenException;
+import org.pcap4j.core.PcapHandle;
 import org.pcap4j.core.PcapNativeException;
 import pcap_packets.*;
 import conversation.*;
@@ -342,11 +343,20 @@ public class Controller {
         //get filename of selected file so to use loadFromFile method from the PCapInterface
         String inpFileName = pcapFile.getAbsolutePath();
 
+        PcapHandle handle = null;
         try {
-            PCapInterface.openPcapFile(inpFileName);
+            handle = PCapInterface.openPcapFile(inpFileName);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error! Cannot read file");
+        }
+
+        try {
+            PCapInterface.processPcapFile(handle);
+        } catch (PcapNativeException e) {
+            e.printStackTrace();
+        } catch (NotOpenException e) {
+            e.printStackTrace();
         }
 
         //set metric values
@@ -371,6 +381,9 @@ public class Controller {
     @FXML
     public void setLabelValues(){
         lblPackets.setText(String.format("%d", PCapInterface.packetStat.getPacketCount()));
+        lblAvgPacketSize.setText(String.format("%d", PCapInterface.packetStat.getAvgPacketSize()));
+        lblAvgPacketSec.setText(String.format("%d", PCapInterface.packetStat.getPacketPerSec()));
+
     }
 
     //Plug in pie chart values for the TCP/UDP distribution chart

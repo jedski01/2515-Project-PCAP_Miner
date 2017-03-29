@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Label?>
@@ -17,7 +23,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Circle?>
 
-<AnchorPane prefHeight="846.0" prefWidth="1345.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pcap_analyzer.Controller">
+<AnchorPane prefHeight="846.0" prefWidth="1345.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pcap_analyzer.Controller">
    <children>
       <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
@@ -65,22 +71,22 @@
                               <Insets left="20.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label fx:id="lblPackets" GridPane.columnIndex="1">
+                        <Label fx:id="lblPackets" text="0" GridPane.columnIndex="1">
                            <GridPane.margin>
                               <Insets left="20.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label fx:id="lblAvgPacketSec" text="475" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Label fx:id="lblAvgPacketSec" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <GridPane.margin>
                               <Insets left="20.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label fx:id="lblAvgPacketSize" text="1175" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <Label fx:id="lblAvgPacketSize" text="0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <GridPane.margin>
                               <Insets left="20.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label fx:id="lblPacketsLost" text="155" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <Label fx:id="lblPacketsLost" text="0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <GridPane.margin>
                               <Insets left="20.0" />
                            </GridPane.margin>

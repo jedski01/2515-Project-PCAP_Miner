@@ -92,6 +92,7 @@ public class PCapInterface {
                 System.out.println("EOF");
                 handle.close();
                 saveStat(start, end, packetCount, packetSize, ipv4Count, ipv6Count, tcpCount, udpCount);
+                System.out.println(packetSize + " " + packetCount);
                 return true;
             }
 
@@ -100,7 +101,7 @@ public class PCapInterface {
             StringBuilder addressB = new StringBuilder();
             Metrics metric = new Metrics();
 
-            packetSize = packet.length();
+            packetSize += packet.length();
 
             if (packetCount == 0) {
                 start = time;
@@ -163,13 +164,11 @@ public class PCapInterface {
         double duration = getTimeDifferenceInSeconds(start, end);
         int avgPacketSize, packetPerSec;
         if (packetCount > 1) {
-            avgPacketSize = (int) (packetSize / duration);
             packetPerSec = (int) (packetCount / duration);
         } else {
-            avgPacketSize = packetSize;
             packetPerSec = 0;
         }
-
+        avgPacketSize = packetSize / packetCount;
         packetStat.setAvgPacketSize(avgPacketSize);
         packetStat.setPacketPerSec(packetPerSec);
         packetStat.setPacketCount(packetCount);

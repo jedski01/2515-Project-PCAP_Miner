@@ -81,7 +81,8 @@ public class PCapInterface {
                     addressA = ipV6Header.getSrcAddr().toString();
                     addressB = ipV6Header.getDstAddr().toString();
                     int sizeInBytes = packet.length();
-                    int ttl = ipV6Header.getHopLimit();
+                    int ttl = ipV6Header.getHopLimitAsInt();
+                    System.out.println(ttl);
                     conversationManager.addFlow(Protocol.IPV6, addressA, addressB, sizeInBytes, time, ttl);
                 }
 

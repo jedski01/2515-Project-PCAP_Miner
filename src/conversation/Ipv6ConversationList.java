@@ -37,7 +37,7 @@ public class Ipv6ConversationList extends ConversationList {
             ConversationModel cm = new ConversationModel();
 
             cm.setAddressA(addressA);
-            cm.setAddressA(addressB);
+            cm.setAddressB(addressB);
             cm.setPackets(summaryInfo.getTotalPackets());
             cm.setBytes(summaryInfo.getTotalBytes());
             cm.setBytesAToB(summaryInfo.getBytesAToB());
@@ -61,7 +61,7 @@ public class Ipv6ConversationList extends ConversationList {
     public void showConversation() {
         ArrayList<ConversationModel> result = getSummarizedList();
 
-        String format = "%-3d %-30s %-30s %-10d %-10d %-15d %-15d %-15d %-15d %-10f %-15d %-15d %-10d %-10d %-10d%n";
+        String format = "%-3d %-30s %-30s %-10d %-10d %-15d %-15d %-15d %-15d %-10f %-15f %-15f %-10d %-10d %-10d%n";
 
         System.out.println("******************************");
         System.out.println("IPV6 CONVERSATIONS");

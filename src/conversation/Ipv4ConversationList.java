@@ -15,7 +15,6 @@ import java.util.Set;
 public class Ipv4ConversationList extends ConversationList {
 
     private static ConversationList instance = new Ipv4ConversationList();
-    private final int FIELD_COUNT = 14;
 
     private Ipv4ConversationList() {}
 

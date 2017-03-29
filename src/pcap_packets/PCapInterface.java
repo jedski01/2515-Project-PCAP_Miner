@@ -92,7 +92,8 @@ public class PCapInterface {
             } catch (EOFException e) {
                 System.out.println("EOF");
                 handle.close();
-                saveStat(start, end, packetCount, packetSize, ipv4Count, ipv6Count, tcpCount, udpCount);
+                int retransmit = 0;
+                saveStat(start, end, packetCount, packetSize, ipv4Count, ipv6Count, tcpCount, udpCount, retransmit);
                 return true;
             }
 
@@ -159,7 +160,7 @@ public class PCapInterface {
         }
     }
     private static void saveStat(Timestamp start, Timestamp end, int packetCount, int packetSize, int ipv4Count,
-                                 int ipv6Count, int tcpCount, int udpCount) {
+                                 int ipv6Count, int tcpCount, int udpCount, int retransmit) {
 
         double duration = getTimeDifferenceInSeconds(start, end);
         int avgPacketSize, packetPerSec;
@@ -178,6 +179,7 @@ public class PCapInterface {
         packetStat.setTcpCount(tcpCount);
         packetStat.setUdpCount(udpCount);
         packetStat.setDuration(duration);
+        packetStat.setRetransmit(retransmit);
     }
 
     //process packet and search for ethernet. return true if Ethernet packet is found
@@ -255,7 +257,6 @@ public class PCapInterface {
 
             metric.bytes = packet.length();
             metric.seq = tcpHeader.getSequenceNumber();
-
             return true;
 
         }

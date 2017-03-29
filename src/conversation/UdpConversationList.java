@@ -15,7 +15,6 @@ import java.util.Set;
 public class UdpConversationList extends ConversationList {
 
     private static ConversationList instance = new UdpConversationList();
-    private static final int FIELD_COUNT = 13;
 
     private UdpConversationList() {}
 

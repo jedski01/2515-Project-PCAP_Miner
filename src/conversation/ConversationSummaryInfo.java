@@ -1,6 +1,8 @@
 package conversation;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
+
 import util.TimeUtil;
 
 /**
@@ -21,8 +23,11 @@ public class ConversationSummaryInfo {
     private int max_ttl = 0;
     private int min_ttl = 255;
     private int ttls = 0;
-    private int retransmitAToB;
-    private int retransmitBToA;
+    private int retransmitAToB = 0;
+    private int retransmitBToA = 0;
+    private HashSet<Integer> seqAB = new HashSet<>();
+    private HashSet<Integer> seqBA = new HashSet<>();
+
 
     public int getTotalPackets() {
         return packetsAToB + packetsBToA;
@@ -94,9 +99,19 @@ public class ConversationSummaryInfo {
         duration = TimeUtil.getTimeDifferenceInSeconds(start, end);
     }
 
-    public void countRetransmit() {
-
+    public void addSeq(Integer seq, boolean reverse) {
+        if (reverse) {
+            if (!seqBA.add(seq)) {
+                retransmitBToA++;
+            }
+        } else {
+            if (!seqAB.add(seq)) {
+                retransmitAToB++;
+            }
+        }
     }
+
+
 
     public int getRetransmitAToB() {
         return retransmitAToB;

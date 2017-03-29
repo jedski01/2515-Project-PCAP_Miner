@@ -15,7 +15,6 @@ import java.util.Set;
 public class Ipv6ConversationList extends ConversationList {
 
     private static ConversationList instance = new Ipv6ConversationList();
-    private final static int FIELD_COUNT = 11;
     private Ipv6ConversationList(){}
 
     public static ConversationList getInstance() {

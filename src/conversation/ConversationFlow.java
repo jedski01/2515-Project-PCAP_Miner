@@ -48,6 +48,10 @@ public class ConversationFlow {
         return ttl;
     }
 
+    public int getSeq() {
+        return seq;
+    }
+
     public void setReverse(boolean reverse) {
         this.reverse = reverse;
     }

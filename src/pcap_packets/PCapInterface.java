@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
 import conversation.ConversationModel;
+import conversation.TcpConversationList;
 import org.pcap4j.core.NotOpenException;
 import org.pcap4j.core.PcapHandle;
 import org.pcap4j.core.PcapHandle.TimestampPrecision;
@@ -92,8 +93,7 @@ public class PCapInterface {
             } catch (EOFException e) {
                 System.out.println("EOF");
                 handle.close();
-                int retransmit = 0;
-                saveStat(start, end, packetCount, packetSize, ipv4Count, ipv6Count, tcpCount, udpCount, retransmit);
+                saveStat(start, end, packetCount, packetSize, ipv4Count, ipv6Count, tcpCount, udpCount);
                 return true;
             }
 
@@ -152,15 +152,21 @@ public class PCapInterface {
 
     public static void updateConversationModel(Protocol protocol) {
         conversationModels.put(protocol, conversationManager.getConversation(protocol).getSummarizedList());
+        if (protocol == Protocol.TCP) {
+            TcpConversationList tcp = (TcpConversationList) conversationManager.getConversation(protocol);
+            packetStat.setPacketLost(tcp.getRetransmissionCount());
+
+        }
     }
 
     public static void updateAllConversationModels() {
         for (Protocol protocol : Protocol.values()) {
             updateConversationModel(protocol);
+
         }
     }
     private static void saveStat(Timestamp start, Timestamp end, int packetCount, int packetSize, int ipv4Count,
-                                 int ipv6Count, int tcpCount, int udpCount, int retransmit) {
+                                 int ipv6Count, int tcpCount, int udpCount) {
 
         double duration = getTimeDifferenceInSeconds(start, end);
         int avgPacketSize, packetPerSec;
@@ -179,7 +185,6 @@ public class PCapInterface {
         packetStat.setTcpCount(tcpCount);
         packetStat.setUdpCount(udpCount);
         packetStat.setDuration(duration);
-        packetStat.setRetransmit(retransmit);
     }
 
     //process packet and search for ethernet. return true if Ethernet packet is found

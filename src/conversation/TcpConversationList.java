@@ -16,6 +16,7 @@ public class TcpConversationList extends ConversationList {
 
     private static ConversationList instance = new TcpConversationList();
     private TcpConversationList(){}
+    private int retransmissionCount;
 
     public static ConversationList getInstance() {
         return instance;
@@ -23,7 +24,7 @@ public class TcpConversationList extends ConversationList {
     @Override
     public ArrayList<ConversationModel> getSummarizedList() {
         ArrayList<ConversationModel> result = new ArrayList<>();
-
+        retransmissionCount = 0;
         Set<ConversationID> ids = conversations.keySet();
         for (ConversationID id : ids) {
 
@@ -53,13 +54,16 @@ public class TcpConversationList extends ConversationList {
             cm.setBpsBToA(summaryInfo.getBpsBToA());
             cm.setRetAToB(summaryInfo.getRetransmitAToB());
             cm.setRetBToA(summaryInfo.getRetransmitBToA());
-
+            retransmissionCount += summaryInfo.getRetransmitAToB()+summaryInfo.getRetransmitBToA();
             result.add(cm);
         }
 
         return result;
     }
 
+    public int getRetransmissionCount() {
+        return retransmissionCount;
+    }
 
     @Override
     public void showConversation() {

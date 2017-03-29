@@ -16,15 +16,7 @@ public class PacketStat {
     private Integer ipv6Count;
     private Integer ipv4Count;
     private Integer tcpCount;
-    private Integer retransmit;
 
-    public Integer getRetransmit() {
-        return retransmit;
-    }
-
-    public void setRetransmit(Integer retransmit) {
-        this.retransmit = retransmit;
-    }
 
     public static PacketStat getInstance() {
         return instance;

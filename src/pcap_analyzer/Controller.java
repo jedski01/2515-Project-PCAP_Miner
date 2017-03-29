@@ -253,6 +253,7 @@ public class Controller implements Initializable{
         lblPackets.setText(String.format("%d", PCapInterface.packetStat.getPacketCount()));
         lblAvgPacketSize.setText(String.format("%d", PCapInterface.packetStat.getAvgPacketSize()));
         lblAvgPacketSec.setText(String.format("%d", PCapInterface.packetStat.getPacketPerSec()));
+        lblPacketsLost.setText(String.format("%d", PCapInterface.packetStat.getPacketLost()));
 
     }
 

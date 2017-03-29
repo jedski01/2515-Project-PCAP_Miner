@@ -92,7 +92,6 @@ public class PCapInterface {
                 System.out.println("EOF");
                 handle.close();
                 saveStat(start, end, packetCount, packetSize, ipv4Count, ipv6Count, tcpCount, udpCount);
-                System.out.println(packetSize + " " + packetCount);
                 return true;
             }
 
@@ -210,8 +209,8 @@ public class PCapInterface {
 
             IpV4Packet ipv4Packet = packet.get(IpV4Packet.class);
             IpV4Packet.IpV4Header ipV4Header = ipv4Packet.getHeader();
-            addressA.append(ipV4Header.getSrcAddr().toString());
-            addressB.append(ipV4Header.getDstAddr().toString());
+            addressA.append(ipV4Header.getSrcAddr().toString().substring(1));
+            addressB.append(ipV4Header.getDstAddr().toString().substring(1));
             metric.bytes = packet.length();
             metric.ttl = ipV4Header.getTtlAsInt();
 
@@ -233,8 +232,8 @@ public class PCapInterface {
             IpV6Packet ipv6Packet = packet.get(IpV6Packet.class);
             IpV6Packet.IpV6Header ipV6Header = ipv6Packet.getHeader();
 
-            addressA.append(ipV6Header.getSrcAddr().toString());
-            addressB.append(ipV6Header.getDstAddr().toString());
+            addressA.append(ipV6Header.getSrcAddr().toString().substring(1));
+            addressB.append(ipV6Header.getDstAddr().toString().substring(1));
             metric.bytes = packet.length();
             metric.ttl = ipV6Header.getHopLimitAsInt();
 

@@ -55,14 +55,14 @@ public class ConversationSummaryInfo {
 
     public double getBpsAToB() {
 
-        if(getDuration() == 0) return 0;
+        if(packetsAToB < 2) return 0;
 
         return bytesAToB * 8 / getDuration();
     }
 
     public double getBpsBToA() {
 
-        if(getDuration() == 0) return 0;
+        if(packetsBToA < 2) return 0;
         return bytesBToA * 8 / getDuration();
     }
 

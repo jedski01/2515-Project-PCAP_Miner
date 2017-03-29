@@ -22,6 +22,8 @@ public class ConversationSummaryInfo {
     private int max_ttl = 0;
     private int min_ttl = 255;
     private int ttls = 0;
+    private int retransmitAToB;
+    private int retransmitBToA;
 
     public int getTotalPackets() {
         return packetsAToB + packetsBToA;
@@ -117,6 +119,18 @@ public class ConversationSummaryInfo {
 
         duration = difference / 1000.0;
 
+    }
+
+    public void countRetransmit() {
+
+    }
+
+    public int getRetransmitAToB() {
+        return retransmitAToB;
+    }
+
+    public int getRetransmitBToA() {
+        return retransmitBToA;
     }
 
     public void incrementPacketCount(boolean reverse) {

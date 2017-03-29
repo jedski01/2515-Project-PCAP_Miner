@@ -59,19 +59,24 @@ public class ConversationManager {
     }
 
     public void addFlow(Protocol protocol, String addressA, String addressB, Integer portA, Integer portB,
-                        int bytes, Timestamp time) {
+                        int bytes, Timestamp time, int seq) {
 
         String addressAEx = addressA + "port" +portA;
         String addressBEx = addressB + "port" +portB;
 
-        addFlow(protocol, addressAEx, addressBEx, bytes, time);
+        addFlow(protocol, addressAEx, addressBEx, bytes, time, seq);
     }
 
     public void addFlow(Protocol protocol, String addressA, String addressB,
-                        int bytes, Timestamp time, int ttl) {
+                        int bytes, Timestamp time, int option) {
 
         ConversationID id = new ConversationID(addressA, addressB);
-        ConversationFlow flow = new ConversationFlow(bytes, time, ttl);
+        ConversationFlow flow;
+        if(protocol == Protocol.IPV4 || protocol == Protocol.IPV6) {
+            flow = new ConversationFlow(bytes, time, option, 0);
+        }else {
+            flow = new ConversationFlow(bytes, time, 0, option);
+        }
 
         try {
             conversations.get(protocol).add(id, flow);

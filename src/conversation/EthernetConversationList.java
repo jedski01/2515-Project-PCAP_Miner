@@ -29,6 +29,7 @@ public class EthernetConversationList extends ConversationList {
 
         Set<ConversationID> ids = conversations.keySet();
         for (ConversationID id : ids) {
+
             String[] fields = new String[FIELD_COUNT];
 
             ArrayList<ConversationFlow> flows = conversations.get(id);
@@ -36,18 +37,19 @@ public class EthernetConversationList extends ConversationList {
             String addressB = id.getAddressB();
 
             ConversationSummaryInfo summaryInfo = getSummaryInfo(flows);
+            ConversationModel cm = new ConversationModel();
 
-            fields[ADDR_A_FIELD] = addressA;
-            fields[ADDR_B_FIELD] = addressB;
-            fields[TOT_PACKETS_FIELD] = String.format("%d", summaryInfo.getTotalPackets());
-            fields[TOT_BYTES_FIELD] = String.format("%d", summaryInfo.getTotalBytes());
-            fields[BYTES_A_B_FIELD] = String.format("%d", summaryInfo.getBytesAToB());
-            fields[BYTES_B_A_FIELD] = String.format("%d", summaryInfo.getBytesBToA());
-            fields[PACKETS_A_B_FIELD] = String.format("%d", summaryInfo.getPacketsAToB());
-            fields[PACKETS_B_A_FIELD] = String.format("%d", summaryInfo.getPacketsBToA());
-            fields[DURATION_FIELD] = String.format("%.4f", summaryInfo.getDuration());
-            fields[BPS_A_B_FIELD] = String.format("%.2f", summaryInfo.getBpsAToB());
-            fields[BPS_B_A_FIELD] = String.format("%.2f", summaryInfo.getBpsBToA());
+            cm.setAddressA(addressA);
+            cm.setAddressB(addressB);
+            cm.setPackets(summaryInfo.getTotalPackets());
+            cm.setBytes(summaryInfo.getTotalBytes());
+            cm.setPacketsAToB(summaryInfo.getPacketsAToB());
+            cm.setPacketsBToA(summaryInfo.getPacketsBToA());
+            cm.setBytesAToB(summaryInfo.getBytesAToB());
+            cm.setBytesBToA(summaryInfo.getBytesBToA());
+            cm.setDuration(summaryInfo.getDuration());
+            cm.setBpsAToB(summaryInfo.getBpsAToB());
+            cm.setBpsBToA(summaryInfo.getBpsBToA());
 
             result.add(fields);
         }

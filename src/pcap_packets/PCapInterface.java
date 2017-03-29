@@ -33,7 +33,9 @@ public class PCapInterface {
     private static int ipv4Count;
     private static int ipv6Count;
 
+
     public static boolean loadFromFile(String filename)  throws PcapNativeException, NotOpenException{
+
         resetCounters();
 
         String PCAP_FILE_KEY = PCapInterface.class.getName() + ".pcapFile";
@@ -150,8 +152,9 @@ public class PCapInterface {
                     TcpPort portA = tcpHeader.getSrcPort();
                     TcpPort portB = tcpHeader.getDstPort();
                     int sizeInBytes = packet.length();
+                    int seq = tcpHeader.getSequenceNumber();
                     conversationManager.addFlow(Protocol.TCP, addressA, addressB,
-                            portA.valueAsInt(), portB.valueAsInt(), sizeInBytes, time);
+                            portA.valueAsInt(), portB.valueAsInt(), sizeInBytes, time, seq);
 
                 }
 
@@ -166,7 +169,7 @@ public class PCapInterface {
                     UdpPort portB = udpHeader.getDstPort();
                     int sizeInBytes = packet.length();
                     conversationManager.addFlow(Protocol.UDP, addressA, addressB,
-                            portA.valueAsInt(), portB.valueAsInt(), sizeInBytes, time);
+                            portA.valueAsInt(), portB.valueAsInt(), sizeInBytes, time, 0);
                 }
             } catch (TimeoutException e) {
                 System.out.println("exception thrown");

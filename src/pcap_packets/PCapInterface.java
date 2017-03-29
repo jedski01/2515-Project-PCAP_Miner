@@ -2,8 +2,11 @@ package pcap_packets;
 
 import java.io.EOFException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
+import conversation.ConversationModel;
 import org.pcap4j.core.NotOpenException;
 import org.pcap4j.core.PcapHandle;
 import org.pcap4j.core.PcapHandle.TimestampPrecision;
@@ -11,8 +14,8 @@ import org.pcap4j.core.PcapNativeException;
 import org.pcap4j.core.Pcaps;
 import org.pcap4j.packet.*;
 import conversation.ConversationManager;
-import org.pcap4j.packet.namednumber.TcpPort;
-import org.pcap4j.packet.namednumber.UdpPort;
+
+import static util.TimeUtil.getTimeDifferenceInSeconds;
 
 /**
  * PCapInterface
@@ -23,185 +26,290 @@ import org.pcap4j.packet.namednumber.UdpPort;
  * @author Jed Iquin A00790108
  * @date 2017-03-24
  */
+
+
 public class PCapInterface {
 
+    static class Metrics {
+        int bytes;
+        int ttl;
+        int seq;
+        int portA;
+        int portB;
+    }
+
+
+    private static HashMap<Protocol, ArrayList<ConversationModel>> conversationModels = new HashMap<>();
+
     public static ConversationManager conversationManager = ConversationManager.getInstance();
-    //declare statistics variables here
-    private static int packetCount;
-    private static int udpCount;
-    private static int tcpCount;
-    private static int ipv4Count;
-    private static int ipv6Count;
+    public static PacketStat packetStat = PacketStat.getInstance();
 
 
-    public static boolean loadFromFile(String filename)  throws PcapNativeException, NotOpenException{
-
-        resetCounters();
-        conversationManager.resetAll();
+    public static PcapHandle openPcapFile(String filename) throws Exception {
 
         String PCAP_FILE_KEY = PCapInterface.class.getName() + ".pcapFile";
         String PCAP_FILE = System.getProperty(PCAP_FILE_KEY, filename);
-
         PcapHandle handle;
         try {
             handle = Pcaps.openOffline(PCAP_FILE, TimestampPrecision.NANO);
         } catch (PcapNativeException e) {
-            handle = Pcaps.openOffline(PCAP_FILE);
-        }
-        while(true) {
             try {
-                Packet packet = handle.getNextPacketEx();
-                Timestamp time = handle.getTimestamp();
-                String addressA = "";
-                String addressB = "";
+                handle = Pcaps.openOffline(PCAP_FILE);
+            } catch (PcapNativeException ee) {
+                System.out.println(ee.toString());
+                throw new Exception(e.toString());
+            }
+        }
+        return handle;
+    }
 
-                //TODO [anyone] : we could probably simplify this conditionals, all of them are doing the same thing
-                // READ LAYER 1
-                //check if packet has ethernet frame
-                if (packet.contains(EthernetPacket.class)) {
-                    //System.out.println(packet);
+    public static boolean processPcapFile(PcapHandle handle) throws PcapNativeException, NotOpenException {
 
-                    //System.out.println("Found ethernet frame");
-                    //conversationManager.addFlow(Protocol.ETHERNET, packet);
-                    EthernetPacket ethernetPacket = packet.get(EthernetPacket.class);
-                    EthernetPacket.EthernetHeader ethernetHeader = ethernetPacket.getHeader();
+        //initialize counters
+        int packetCount = 0;
+        int udpCount = 0;
+        int tcpCount = 0;
+        int ipv4Count = 0;
+        int ipv6Count = 0;
+        int packetSize = 0;
 
-                    addressA = ethernetHeader.getSrcAddr().toString();
-                    addressB = ethernetHeader.getDstAddr().toString();
-                    int sizeInBytes = packet.length();
-                    conversationManager.addFlow(Protocol.ETHERNET, addressA, addressB, sizeInBytes, time);
-                }
-                //READ LAYER 2
-                if (packet.contains(IpV6Packet.class)) {
-                    //System.out.println("found ipv6 segment");
-                    ipv6Count++;
-                    IpV6Packet ipv6Packet = packet.get(IpV6Packet.class);
-                    IpV6Packet.IpV6Header ipV6Header = ipv6Packet.getHeader();
+        Timestamp start = null;
+        Timestamp end = null;
+        boolean errorFound = false;
 
-                    addressA = ipV6Header.getSrcAddr().toString();
-                    addressB = ipV6Header.getDstAddr().toString();
-                    int sizeInBytes = packet.length();
-                    int ttl = ipV6Header.getHopLimitAsInt();
-                    System.out.println(ttl);
-                    conversationManager.addFlow(Protocol.IPV6, addressA, addressB, sizeInBytes, time, ttl);
-                }
+        while (!errorFound) {
 
-                if (packet.contains(IpV4Packet.class)) {
-                    //System.out.println("found ipv4 segment");
-                    ipv4Count++;
-                    IpV4Packet ipv4Packet = packet.get(IpV4Packet.class);
-                    IpV4Packet.IpV4Header ipV4Header = ipv4Packet.getHeader();
-                    addressA = ipV4Header.getSrcAddr().toString();
-                    addressB = ipV4Header.getDstAddr().toString();
-                    int sizeInBytes = packet.length();
-                    int ttl = ipV4Header.getTtlAsInt();
-                    conversationManager.addFlow(Protocol.IPV4, addressA, addressB, sizeInBytes, time, ttl);
-                }
-                //FIXME [jed] : Temporary fix. there should be a better way of doing this
-                //just extracting the address
-                if (packet.contains(IcmpV6CommonPacket.class)) {
-
-                    IcmpV6CommonPacket icmpv6Packet = packet.get(IcmpV6CommonPacket.class);
-
-                    Packet payload = icmpv6Packet.getPayload();
-
-                    if (payload.contains(IpV4Packet.class)) {
-                        IpV4Packet ipv4Payload = payload.get(IpV4Packet.class);
-                        IpV4Packet.IpV4Header payloadHeader = ipv4Payload.getHeader();
-
-                        addressA = payloadHeader.getSrcAddr().toString();
-                        addressB = payloadHeader.getDstAddr().toString();
-                    }
-
-                    if (payload.contains(IpV6Packet.class)) {
-                        IpV6Packet ipv6Payload = payload.get(IpV6Packet.class);
-                        IpV6Packet.IpV6Header payloadHeader = ipv6Payload.getHeader();
-
-                        addressA = payloadHeader.getSrcAddr().toString();
-                        addressB = payloadHeader.getDstAddr().toString();
-                    }
-                }
-                if (packet.contains(IcmpV4CommonPacket.class)) {
-                    IcmpV4CommonPacket icmpv4Packet = packet.get(IcmpV4CommonPacket.class);
-
-                    Packet payload = icmpv4Packet.getPayload();
-
-                    if (payload.contains(IpV4Packet.class)) {
-                        IpV4Packet ipv4Payload = payload.get(IpV4Packet.class);
-                        IpV4Packet.IpV4Header payloadHeader = ipv4Payload.getHeader();
-
-                        addressA = payloadHeader.getSrcAddr().toString();
-                        addressB = payloadHeader.getDstAddr().toString();
-                    }
-
-                    if (payload.contains(IpV6Packet.class)) {
-                        IpV6Packet ipv6Payload = payload.get(IpV6Packet.class);
-                        IpV6Packet.IpV6Header payloadHeader = ipv6Payload.getHeader();
-
-                        addressA = payloadHeader.getSrcAddr().toString();
-                        addressB = payloadHeader.getDstAddr().toString();
-                    }
-
-                }
-                //READ LAYER 3
-                if (packet.contains(TcpPacket.class)) {
-                    //System.out.println("Found tcp packet!");
-                    tcpCount++;
-
-                    TcpPacket tcpPacket = packet.get(TcpPacket.class);
-                    TcpPacket.TcpHeader tcpHeader = tcpPacket.getHeader();
-
-                    TcpPort portA = tcpHeader.getSrcPort();
-                    TcpPort portB = tcpHeader.getDstPort();
-                    int sizeInBytes = packet.length();
-                    int seq = tcpHeader.getSequenceNumber();
-                    conversationManager.addFlow(Protocol.TCP, addressA, addressB,
-                            portA.valueAsInt(), portB.valueAsInt(), sizeInBytes, time, seq);
-
-                }
-
-                if (packet.contains(UdpPacket.class)) {
-                    //System.out.println("Found tcp packet!");
-                    udpCount++;
-
-                    UdpPacket udpPacket = packet.get(UdpPacket.class);
-                    UdpPacket.UdpHeader udpHeader = udpPacket.getHeader();
-
-                    UdpPort portA = udpHeader.getSrcPort();
-                    UdpPort portB = udpHeader.getDstPort();
-                    int sizeInBytes = packet.length();
-                    conversationManager.addFlow(Protocol.UDP, addressA, addressB,
-                            portA.valueAsInt(), portB.valueAsInt(), sizeInBytes, time, 0);
-                }
+            Packet packet = null;
+            try {
+                packet = handle.getNextPacketEx();
             } catch (TimeoutException e) {
                 System.out.println("exception thrown");
+                //I need to do this because if i set this to return true
+                //java thinks that the codes underneath are unreachable
+                errorFound = true;
+                return !errorFound;
             } catch (EOFException e) {
                 System.out.println("EOF");
-                break;
+                handle.close();
+                saveStat(start, end, packetCount, packetSize, ipv4Count, ipv6Count, tcpCount, udpCount);
+                return true;
             }
+
+            Timestamp time = handle.getTimestamp();
+            StringBuilder addressA = new StringBuilder();
+            StringBuilder addressB = new StringBuilder();
+            Metrics metric = new Metrics();
+
+            packetSize = packet.length();
+
+            if (packetCount == 0) {
+                start = time;
+            }
+            //read layer 2
+            if (processEthernetPackets(packet, addressA, addressB, metric)) {
+                conversationManager.addFlow(Protocol.ETHERNET, addressA.toString(), addressB.toString(),
+                                            metric.bytes, time);
+            }
+
+            if (processIPV4Packets(packet, addressA, addressB, metric)) {
+                conversationManager.addFlow(Protocol.IPV4, addressA.toString(), addressB.toString(),
+                                            metric.bytes, time, metric.ttl);
+                ipv4Count++;
+            }
+
+            if (processIPV6Packets(packet, addressA, addressB, metric)) {
+                conversationManager.addFlow(Protocol.IPV6, addressA.toString(), addressB.toString(),
+                                            metric.bytes, time, metric.ttl);
+                ipv6Count++;
+            }
+
+            processICMPv4Packets(packet, addressA, addressB, metric);
+            processICMPv6Packets(packet, addressA, addressB, metric);
+
+            if (processTCPPackets(packet, addressA, addressB, metric)) {
+                conversationManager.addFlow(Protocol.TCP, addressA.toString(), addressB.toString(),
+                        metric.portA, metric.portB, metric.bytes, time, metric.seq);
+                tcpCount++;
+            }
+
+            if (processUDPPackets(packet, addressA, addressB, metric)) {
+                conversationManager.addFlow(Protocol.UDP, addressA.toString(), addressB.toString(),
+                        metric.portA, metric.portB, metric.bytes, time, 0);
+                udpCount++;
+            }
+            end = time;
             packetCount++;
+
+        }
+        return false;
+    }
+
+    public static ArrayList<ConversationModel> getConversationModel(Protocol protocol) {
+        return conversationModels.get(protocol);
+    }
+
+    public static void updateConversationModel(Protocol protocol) {
+        conversationModels.put(protocol, conversationManager.getConversation(protocol).getSummarizedList());
+    }
+
+    public static void updateAllConversationModels() {
+        for (Protocol protocol : Protocol.values()) {
+            updateConversationModel(protocol);
+        }
+    }
+    private static void saveStat(Timestamp start, Timestamp end, int packetCount, int packetSize, int ipv4Count,
+                                 int ipv6Count, int tcpCount, int udpCount) {
+
+        double duration = getTimeDifferenceInSeconds(start, end);
+        int avgPacketSize, packetPerSec;
+        if (packetCount > 1) {
+            avgPacketSize = (int) (packetSize / duration);
+            packetPerSec = (int) (packetCount / duration);
+        } else {
+            avgPacketSize = packetSize;
+            packetPerSec = 0;
         }
 
-        handle.close();
-
-        return true;
+        packetStat.setAvgPacketSize(avgPacketSize);
+        packetStat.setPacketPerSec(packetPerSec);
+        packetStat.setPacketCount(packetCount);
+        packetStat.setPacketLost(0);
+        packetStat.setIpv4Count(ipv4Count);
+        packetStat.setIpv6Count(ipv6Count);
+        packetStat.setTcpCount(tcpCount);
+        packetStat.setUdpCount(udpCount);
+        packetStat.setDuration(duration);
     }
 
-    private static void resetCounters() {
-        packetCount = 0;
-        udpCount = 0;
-        tcpCount = 0;
-        ipv4Count = 0;
-        ipv6Count = 0;
+    //process packet and search for ethernet. return true if Ethernet packet is found
+    private static boolean processEthernetPackets(Packet packet, StringBuilder addressA, StringBuilder addressB, Metrics metric) {
+
+        if (packet.contains(EthernetPacket.class)) {
+            //System.out.println(packet);
+
+            //System.out.println("Found ethernet frame");
+            //conversationManager.addFlow(Protocol.ETHERNET, packet);
+            EthernetPacket ethernetPacket = packet.get(EthernetPacket.class);
+            EthernetPacket.EthernetHeader ethernetHeader = ethernetPacket.getHeader();
+
+            addressA.append(ethernetHeader.getSrcAddr().toString()) ;
+            addressB.append(ethernetHeader.getDstAddr().toString());
+            metric.bytes = packet.length();
+            return true;
+        }
+        return false;
     }
 
-    public static int getPacketCount() {
-        return packetCount;
+    //process IPV4 packets, return true if ipv4 packet is found
+    private static boolean processIPV4Packets(Packet packet, StringBuilder addressA, StringBuilder addressB, Metrics metric) {
+        if (packet.contains(IpV4Packet.class)) {
+
+            //clear the string builder first
+            addressA.delete(0, addressA.length());
+            addressB.delete(0, addressB.length());
+            //System.out.println("found ipv4 segment");
+
+            IpV4Packet ipv4Packet = packet.get(IpV4Packet.class);
+            IpV4Packet.IpV4Header ipV4Header = ipv4Packet.getHeader();
+            addressA.append(ipV4Header.getSrcAddr().toString());
+            addressB.append(ipV4Header.getDstAddr().toString());
+            metric.bytes = packet.length();
+            metric.ttl = ipV4Header.getTtlAsInt();
+
+            return true;
+        }
+
+        return false;
     }
-    public static int getUDPCount() { return udpCount; }
-    public static int getTCPCount() { return tcpCount; }
-    public static int getIPv4Count() { return ipv4Count; }
-    public static int getIPv6Count() { return ipv6Count; }
+
+    private static boolean processIPV6Packets(Packet packet, StringBuilder addressA, StringBuilder addressB, Metrics metric) {
+
+        if (packet.contains(IpV6Packet.class)) {
+            //System.out.println("found ipv6 segment");
+
+            //clear the string builder first
+            addressA.delete(0, addressA.length());
+            addressB.delete(0, addressB.length());
+
+            IpV6Packet ipv6Packet = packet.get(IpV6Packet.class);
+            IpV6Packet.IpV6Header ipV6Header = ipv6Packet.getHeader();
+
+            addressA.append(ipV6Header.getSrcAddr().toString());
+            addressB.append(ipV6Header.getDstAddr().toString());
+            metric.bytes = packet.length();
+            metric.ttl = ipV6Header.getHopLimitAsInt();
+
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean processTCPPackets(Packet packet, StringBuilder addressA, StringBuilder addressB, Metrics metric) {
+        if (packet.contains(TcpPacket.class)) {
+            //System.out.println("Found tcp packet!");
+
+            TcpPacket tcpPacket = packet.get(TcpPacket.class);
+            TcpPacket.TcpHeader tcpHeader = tcpPacket.getHeader();
+
+            metric.portA = tcpHeader.getSrcPort().valueAsInt();
+            metric.portB = tcpHeader.getDstPort().valueAsInt();
+
+            metric.bytes = packet.length();
+            metric.seq = tcpHeader.getSequenceNumber();
+
+            return true;
+
+        }
+
+        return false;
+    }
+
+    private static boolean processUDPPackets(Packet packet, StringBuilder addressA, StringBuilder addressB, Metrics metric) {
+        if (packet.contains(UdpPacket.class)) {
+            //System.out.println("Found tcp packet!");
+
+            UdpPacket udpPacket = packet.get(UdpPacket.class);
+            UdpPacket.UdpHeader udpHeader = udpPacket.getHeader();
+
+            metric.portA = udpHeader.getSrcPort().valueAsInt();
+            metric.portB = udpHeader.getDstPort().valueAsInt();
+            metric.bytes = packet.length();
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean processICMPv4Packets(Packet packet, StringBuilder addressA, StringBuilder addressB, Metrics metric) {
+        if (packet.contains(IcmpV4CommonPacket.class)) {
+            IcmpV4CommonPacket icmpv4Packet = packet.get(IcmpV4CommonPacket.class);
+
+            Packet payload = icmpv4Packet.getPayload();
+
+            processIPV4Packets(payload, addressA, addressB, metric);
+            processIPV6Packets(payload, addressA, addressB, metric);
+            return true;
+        }
+
+        return false;
+    }
+
+    private static boolean processICMPv6Packets(Packet packet, StringBuilder addressA, StringBuilder addressB, Metrics metric) {
+        if (packet.contains(IcmpV6CommonPacket.class)) {
+
+            IcmpV6CommonPacket icmpv6Packet = packet.get(IcmpV6CommonPacket.class);
+            Packet payload = icmpv6Packet.getPayload();
+
+            //clear the address first
+            addressA.delete(0, addressA.length());
+            addressB.delete(0, addressB.length());
+
+            processIPV4Packets(payload, addressA, addressB, metric);
+            processIPV6Packets(payload, addressA, addressB, metric);
+            return true;
+        }
+
+        return false;
+    }
 
 
 }

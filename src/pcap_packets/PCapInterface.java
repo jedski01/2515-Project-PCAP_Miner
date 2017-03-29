@@ -37,6 +37,7 @@ public class PCapInterface {
     public static boolean loadFromFile(String filename)  throws PcapNativeException, NotOpenException{
 
         resetCounters();
+        conversationManager.resetAll();
 
         String PCAP_FILE_KEY = PCapInterface.class.getName() + ".pcapFile";
         String PCAP_FILE = System.getProperty(PCAP_FILE_KEY, filename);

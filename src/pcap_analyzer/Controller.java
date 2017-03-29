@@ -343,11 +343,8 @@ public class Controller {
         String inpFileName = pcapFile.getAbsolutePath();
 
         try {
-            PCapInterface.loadFromFile(inpFileName);
-        } catch (PcapNativeException e) {
-            e.printStackTrace();
-            System.out.println("Error! Cannot read file");
-        } catch (NotOpenException e) {
+            PCapInterface.openPcapFile(inpFileName);
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error! Cannot read file");
         }
@@ -361,13 +358,6 @@ public class Controller {
         setIPV6Values();
         setTCPValues();
         setUDPValues();
-
-        System.out.println(PCapInterface.getIPv4Count() + "\n");
-        System.out.println(PCapInterface.getIPv6Count() + "\n");
-        System.out.println(PCapInterface.getPacketCount()+ "\n");
-        System.out.println(PCapInterface.getTCPCount()+ "\n");
-        System.out.println(PCapInterface.getUDPCount()+ "\n");
-
     };
 
     //TODO [patrick] : implement this
@@ -380,7 +370,7 @@ public class Controller {
     //Set label values for the summary pane
     @FXML
     public void setLabelValues(){
-        lblPackets.setText(String.format("%d", PCapInterface.getPacketCount()));
+        lblPackets.setText(String.format("%d", PCapInterface.packetStat.getPacketCount()));
     }
 
     //Plug in pie chart values for the TCP/UDP distribution chart
@@ -388,8 +378,8 @@ public class Controller {
     public void setPieTcpUdp(){
         ObservableList<PieChart.Data> pieChartData =
                 FXCollections.observableArrayList(
-                        new PieChart.Data("TCP", PCapInterface.getTCPCount()),
-                        new PieChart.Data("UDP", PCapInterface.getUDPCount()));
+                        new PieChart.Data("TCP", PCapInterface.packetStat.getTcpCount()),
+                        new PieChart.Data("UDP", PCapInterface.packetStat.getUdpCount()));
         pieTcpUdp.setData(pieChartData);
     }
 
@@ -398,8 +388,8 @@ public class Controller {
     public void setPieIP(){
         ObservableList<PieChart.Data> pieChartData =
             FXCollections.observableArrayList(
-                    new PieChart.Data("IPV4", PCapInterface.getIPv4Count()),
-                    new PieChart.Data("IPV6", PCapInterface.getIPv6Count()));
+                    new PieChart.Data("IPV4", PCapInterface.packetStat.getIpv4Count()),
+                    new PieChart.Data("IPV6", PCapInterface.packetStat.getIpv6Count()));
         pieIP.setData(pieChartData);
     }
 

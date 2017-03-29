@@ -1,8 +1,7 @@
 package conversation;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import util.TimeUtil;
 
 /**
  * ConversationSummaryInfo
@@ -92,33 +91,7 @@ public class ConversationSummaryInfo {
     }
 
     public void setDuration(Timestamp start, Timestamp end) {
-
-        //do relative computation
-        //get the difference in milliseconds first
-        //we know end is always greater than start
-        long milliDifference = end.getTime() - start.getTime();
-
-        //get their nano values for a more precise calc
-        //remove unnecessary part, precision is up to 3 decimal after millis
-        //after that its just zero
-        long nanoStart = start.getNanos() / 1000;
-        long nanoEnd = end.getNanos() / 1000;
-
-        //get the values after the millis part
-        double startNanoPart = nanoStart % 1000 / 1000.0;
-        double endNanoPart = nanoEnd % 1000/ 1000.0;
-
-        //relative computation
-        //start is zero so end is the difference between end and start
-        //just add the nano part of the end
-        double endMillis = milliDifference + endNanoPart;
-        //you don't have to add zero to start nano
-
-        //so difference is the end millis and start nano
-        double difference = endMillis - startNanoPart;
-
-        duration = difference / 1000.0;
-
+        duration = TimeUtil.getTimeDifferenceInSeconds(start, end);
     }
 
     public void countRetransmit() {

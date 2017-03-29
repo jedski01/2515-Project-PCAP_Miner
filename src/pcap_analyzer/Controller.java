@@ -1,6 +1,6 @@
 package pcap_analyzer;
+import conversation.ConversationModel;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,7 +14,6 @@ import org.pcap4j.core.NotOpenException;
 import org.pcap4j.core.PcapHandle;
 import org.pcap4j.core.PcapNativeException;
 import pcap_packets.*;
-import conversation.*;
 
 
 
@@ -314,7 +313,6 @@ public class Controller implements Initializable{
                     tblUdp.setItems(cm);
                     break;
             }
-            observableList.get(protocol).setAll(PCapInterface.getConversationModel(protocol));
         }
     }
 

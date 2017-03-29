@@ -76,6 +76,7 @@ public class PCapInterface {
         Timestamp start = null;
         Timestamp end = null;
         boolean errorFound = false;
+        conversationManager.resetAll();
 
         while (!errorFound) {
 

@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Circle?>
 
-<AnchorPane prefHeight="846.0" prefWidth="1204.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pcap_analyzer.Controller">
+<AnchorPane prefHeight="846.0" prefWidth="1345.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pcap_analyzer.Controller">
    <children>
       <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
@@ -124,19 +124,19 @@
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <TableView prefHeight="200.0" prefWidth="678.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
+                                    <TableView fx:id="tblEthernet" prefHeight="200.0" prefWidth="678.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
                                        <columns>
-                                          <TableColumn prefWidth="97.0" text="Address A" />
-                                          <TableColumn prefWidth="91.0" text="Address B" />
-                                          <TableColumn minWidth="7.0" text="Packets " />
-                                          <TableColumn minWidth="2.0" prefWidth="70.0" text="Bytes" />
-                                          <TableColumn prefWidth="125.0" text="Packets A-B" />
-                                          <TableColumn prefWidth="93.0" text="Bytes A-B" />
-                                          <TableColumn prefWidth="93.0" text="Packets B-A" />
-                                          <TableColumn prefWidth="93.0" text="Bytes B-A" />
-                                          <TableColumn prefWidth="108.0" text="Duration" />
-                                          <TableColumn prefWidth="92.0" text="bps A-B" />
-                                          <TableColumn prefWidth="79.0" text="bps B-A" />
+                                          <TableColumn fx:id="ethAddressA" prefWidth="97.0" text="Address A" />
+                                          <TableColumn fx:id="ethAddressB" prefWidth="91.0" text="Address B" />
+                                          <TableColumn fx:id="ethPackets" minWidth="7.0" text="Packets " />
+                                          <TableColumn fx:id="ethBytes" minWidth="2.0" prefWidth="70.0" text="Bytes" />
+                                          <TableColumn fx:id="ethPacketsAB" prefWidth="125.0" text="Packets A-B" />
+                                          <TableColumn fx:id="ethBytesAB" prefWidth="93.0" text="Bytes A-B" />
+                                          <TableColumn fx:id="ethPacketsBA" prefWidth="93.0" text="Packets B-A" />
+                                          <TableColumn fx:id="ethBytesBA" prefWidth="93.0" text="Bytes B-A" />
+                                          <TableColumn fx:id="ethDuration" prefWidth="108.0" text="Duration" />
+                                          <TableColumn fx:id="ethBpsAB" prefWidth="92.0" text="bps A-B" />
+                                          <TableColumn fx:id="ethBpsBA" prefWidth="79.0" text="bps B-A" />
                                        </columns>
                                     </TableView>
                                  </children>
@@ -147,22 +147,22 @@
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <TableView prefHeight="200.0" prefWidth="678.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
+                                    <TableView fx:id="tblIPV4" prefHeight="200.0" prefWidth="678.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
                                        <columns>
-                                          <TableColumn prefWidth="97.0" text="Address A" />
-                                          <TableColumn prefWidth="91.0" text="Address B" />
-                                          <TableColumn minWidth="7.0" text="Packets " />
-                                          <TableColumn minWidth="2.0" prefWidth="70.0" text="Bytes" />
-                                          <TableColumn prefWidth="125.0" text="Packets A-B" />
-                                          <TableColumn prefWidth="93.0" text="Bytes A-B" />
-                                          <TableColumn prefWidth="93.0" text="Packets B-A" />
-                                          <TableColumn prefWidth="93.0" text="Bytes B-A" />
-                                          <TableColumn prefWidth="93.0" text="Duration" />
-                                          <TableColumn prefWidth="93.0" text="bps A-B" />
-                                          <TableColumn prefWidth="93.0" text="bps B-A" />
-                                          <TableColumn prefWidth="93.0" text="Min TTL" />
-                                          <TableColumn prefWidth="93.0" text="Max TTL" />
-                                          <TableColumn prefWidth="93.0" text="Avg TTL" />
+                                          <TableColumn fx:id="ipv4AddressA" prefWidth="97.0" text="Address A" />
+                                          <TableColumn fx:id="ipv4AddressB" prefWidth="91.0" text="Address B" />
+                                          <TableColumn fx:id="ipv4Packets" minWidth="7.0" text="Packets " />
+                                          <TableColumn fx:id="ipv4Bytes" minWidth="2.0" prefWidth="70.0" text="Bytes" />
+                                          <TableColumn fx:id="ipv4PacketsAB" prefWidth="125.0" text="Packets A-B" />
+                                          <TableColumn fx:id="ipv4BytesAB" prefWidth="93.0" text="Bytes A-B" />
+                                          <TableColumn fx:id="ipv4PacketsBA" prefWidth="93.0" text="Packets B-A" />
+                                          <TableColumn fx:id="ipv4BytesBA" prefWidth="93.0" text="Bytes B-A" />
+                                          <TableColumn fx:id="ipv4Duration" prefWidth="93.0" text="Duration" />
+                                          <TableColumn fx:id="ipv4BpsAB" prefWidth="93.0" text="bps A-B" />
+                                          <TableColumn fx:id="ipv4BpsBA" prefWidth="93.0" text="bps B-A" />
+                                          <TableColumn fx:id="ipv4MinTTL" prefWidth="93.0" text="Min TTL" />
+                                          <TableColumn fx:id="ipv4MaxTTL" prefWidth="93.0" text="Max TTL" />
+                                          <TableColumn fx:id="ipv4AvgTTL" prefWidth="93.0" text="Avg TTL" />
                                        </columns>
                                     </TableView>
                                  </children>
@@ -173,22 +173,22 @@
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <TableView layoutX="-158.0" layoutY="63.0" prefHeight="200.0" prefWidth="678.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
+                                    <TableView fx:id="tblIPV6" layoutX="-158.0" layoutY="63.0" prefHeight="200.0" prefWidth="678.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
                                        <columns>
-                                          <TableColumn prefWidth="97.0" text="Address A" />
-                                          <TableColumn prefWidth="91.0" text="Address B" />
-                                          <TableColumn minWidth="7.0" text="Packets " />
-                                          <TableColumn minWidth="2.0" prefWidth="70.0" text="Bytes" />
-                                          <TableColumn prefWidth="125.0" text="Packets A-B" />
-                                          <TableColumn prefWidth="93.0" text="Bytes A-B" />
-                                          <TableColumn prefWidth="93.0" text="Packets B-A" />
-                                          <TableColumn prefWidth="93.0" text="Bytes B-A" />
-                                          <TableColumn prefWidth="93.0" text="Duration" />
-                                          <TableColumn prefWidth="93.0" text="bps A-B" />
-                                          <TableColumn prefWidth="93.0" text="bps B-A" />
-                                          <TableColumn prefWidth="93.0" text="Min Hop" />
-                                          <TableColumn prefWidth="93.0" text="Max Hop" />
-                                          <TableColumn prefWidth="93.0" text="Avg Hop" />
+                                          <TableColumn fx:id="ipv6AddressA" prefWidth="97.0" text="Address A" />
+                                          <TableColumn fx:id="ipv6AddressB" prefWidth="91.0" text="Address B" />
+                                          <TableColumn fx:id="ipv6Packets" minWidth="7.0" text="Packets " />
+                                          <TableColumn fx:id="ipv6Bytes" minWidth="2.0" prefWidth="70.0" text="Bytes" />
+                                          <TableColumn fx:id="ipv6PacketsAB" prefWidth="125.0" text="Packets A-B" />
+                                          <TableColumn fx:id="ipv6BytesAB" prefWidth="93.0" text="Bytes A-B" />
+                                          <TableColumn fx:id="ipv6PacketsBA" prefWidth="93.0" text="Packets B-A" />
+                                          <TableColumn fx:id="ipv6BytesBA" prefWidth="93.0" text="Bytes B-A" />
+                                          <TableColumn fx:id="ipv6Duration" prefWidth="93.0" text="Duration" />
+                                          <TableColumn fx:id="ipv6BpsAB" prefWidth="93.0" text="bps A-B" />
+                                          <TableColumn fx:id="ipv6BpsBA" prefWidth="93.0" text="bps B-A" />
+                                          <TableColumn fx:id="ipv6MinHop" prefWidth="93.0" text="Min Hop" />
+                                          <TableColumn fx:id="ipv6MaxHop" prefWidth="93.0" text="Max Hop" />
+                                          <TableColumn fx:id="ipv6AvgHop" prefWidth="93.0" text="Avg Hop" />
                                        </columns>
                                     </TableView>
                                  </children>
@@ -199,21 +199,21 @@
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <TableView layoutX="-9.0" layoutY="45.0" prefHeight="366.0" prefWidth="1139.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
+                                    <TableView fx:id="tblTcp" layoutX="-9.0" layoutY="45.0" prefHeight="366.0" prefWidth="1139.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
                                        <columns>
-                                          <TableColumn prefWidth="97.0" text="Address A" />
-                                          <TableColumn prefWidth="93.0" text="Port A" />
-                                          <TableColumn prefWidth="91.0" text="Address B" />
-                                          <TableColumn prefWidth="93.0" text="Port B" />
-                                          <TableColumn minWidth="7.0" text="Packets " />
-                                          <TableColumn minWidth="2.0" prefWidth="70.0" text="Bytes" />
-                                          <TableColumn prefWidth="125.0" text="Packets A-B" />
-                                          <TableColumn prefWidth="93.0" text="Bytes A-B" />
-                                          <TableColumn prefWidth="93.0" text="Packets B-A" />
-                                          <TableColumn prefWidth="93.0" text="Bytes B-A" />
-                                          <TableColumn prefWidth="93.0" text="Duration" />
-                                          <TableColumn prefWidth="93.0" text="bps A-B" />
-                                          <TableColumn prefWidth="93.0" text="bps B-A" />
+                                          <TableColumn fx:id="tcpAddressA" prefWidth="97.0" text="Address A" />
+                                          <TableColumn fx:id="tcpPortA" prefWidth="93.0" text="Port A" />
+                                          <TableColumn fx:id="tcpAddressB" prefWidth="91.0" text="Address B" />
+                                          <TableColumn fx:id="tcpPortB" prefWidth="93.0" text="Port B" />
+                                          <TableColumn fx:id="tcpPackets" minWidth="7.0" text="Packets " />
+                                          <TableColumn fx:id="tcpBytes" minWidth="2.0" prefWidth="70.0" text="Bytes" />
+                                          <TableColumn fx:id="tcpPacketsAB" prefWidth="125.0" text="Packets A-B" />
+                                          <TableColumn fx:id="tcpBytesAB" prefWidth="93.0" text="Bytes A-B" />
+                                          <TableColumn fx:id="tcpPacketsBA" prefWidth="93.0" text="Packets B-A" />
+                                          <TableColumn fx:id="tcpBytesBA" prefWidth="93.0" text="Bytes B-A" />
+                                          <TableColumn fx:id="tcpDuration" prefWidth="93.0" text="Duration" />
+                                          <TableColumn fx:id="tcpBpsAB" prefWidth="93.0" text="bps A-B" />
+                                          <TableColumn fx:id="tcpBpsBA" prefWidth="93.0" text="bps B-A" />
                                        </columns>
                                     </TableView>
                                  </children>
@@ -224,21 +224,21 @@
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <TableView layoutX="-9.0" layoutY="45.0" prefHeight="200.0" prefWidth="678.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
+                                    <TableView fx:id="tblUdp" layoutX="-9.0" layoutY="45.0" prefHeight="200.0" prefWidth="678.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
                                        <columns>
-                                          <TableColumn prefWidth="97.0" text="Address A" />
-                                          <TableColumn prefWidth="93.0" text="Port A" />
-                                          <TableColumn prefWidth="91.0" text="Address B" />
-                                          <TableColumn prefWidth="93.0" text="Port B" />
-                                          <TableColumn minWidth="7.0" text="Packets " />
-                                          <TableColumn minWidth="2.0" prefWidth="70.0" text="Bytes" />
-                                          <TableColumn prefWidth="125.0" text="Packets A-B" />
-                                          <TableColumn prefWidth="93.0" text="Bytes A-B" />
-                                          <TableColumn prefWidth="93.0" text="Packets B-A" />
-                                          <TableColumn prefWidth="93.0" text="Bytes B-A" />
-                                          <TableColumn prefWidth="93.0" text="Duration" />
-                                          <TableColumn prefWidth="93.0" text="bps A-B" />
-                                          <TableColumn prefWidth="93.0" text="bps B-A" />
+                                          <TableColumn fx:id="udpAddressA" prefWidth="97.0" text="Address A" />
+                                          <TableColumn fx:id="udpPortA" prefWidth="93.0" text="Port A" />
+                                          <TableColumn fx:id="udpAddressB" prefWidth="91.0" text="Address B" />
+                                          <TableColumn fx:id="udpPortB" prefWidth="93.0" text="Port B" />
+                                          <TableColumn fx:id="udpPackets" minWidth="7.0" text="Packets " />
+                                          <TableColumn fx:id="udpBytes" minWidth="2.0" prefWidth="70.0" text="Bytes" />
+                                          <TableColumn fx:id="udpPacketsAB" prefWidth="125.0" text="Packets A-B" />
+                                          <TableColumn fx:id="udpBytesAB" prefWidth="93.0" text="Bytes A-B" />
+                                          <TableColumn fx:id="udpPacketsBA" prefWidth="93.0" text="Packets B-A" />
+                                          <TableColumn fx:id="udpBytesBA" prefWidth="93.0" text="Bytes B-A" />
+                                          <TableColumn fx:id="udpDuration" prefWidth="93.0" text="Duration" />
+                                          <TableColumn fx:id="udpBpsAB" prefWidth="93.0" text="bps A-B" />
+                                          <TableColumn fx:id="udpBpsBA" prefWidth="93.0" text="bps B-A" />
                                        </columns>
                                     </TableView>
                                  </children>

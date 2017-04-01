@@ -6,10 +6,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import org.pcap4j.core.NotOpenException;
 import org.pcap4j.core.PcapHandle;
 import org.pcap4j.core.PcapNativeException;
@@ -19,6 +21,7 @@ import pcap_packets.*;
 
 import java.io.File;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
@@ -37,12 +40,16 @@ public class Controller implements Initializable{
     public Label lblAvgPacketSize;
     @FXML
     public Label lblPacketsLost;
+    @FXML
+    public Label lblFileName;
 
     //PIE CHARTS
     @FXML
     public PieChart pieTcpUdp;
     @FXML
     public PieChart pieIP;
+    @FXML
+    public PieChart piePacketsLost;
 
     //TABLEVIEWS
     @FXML
@@ -216,6 +223,8 @@ public class Controller implements Initializable{
 
         //get filename of selected file so to use loadFromFile method from the PCapInterface
         String inpFileName = pcapFile.getAbsolutePath();
+        String fname = pcapFile.getName();
+        lblFileName.setText(fname);
 
         PcapHandle handle = null;
         try {
@@ -237,6 +246,7 @@ public class Controller implements Initializable{
         setLabelValues();
         setPieTcpUdp();
         setPieIP();
+        setPiePacketsLost();
         updateTables();
     };
 
@@ -265,16 +275,27 @@ public class Controller implements Initializable{
                         new PieChart.Data("TCP", PCapInterface.packetStat.getTcpCount()),
                         new PieChart.Data("UDP", PCapInterface.packetStat.getUdpCount()));
         pieTcpUdp.setData(pieChartData);
+        pieTcpUdp.setTitle("TCP/UDP Distribution");
     }
 
     //Plug in pie chart values for the IPV4 VS IPV6 distribution chart
     @FXML
     public void setPieIP(){
         ObservableList<PieChart.Data> pieChartData =
-            FXCollections.observableArrayList(
-                    new PieChart.Data("IPV4", PCapInterface.packetStat.getIpv4Count()),
-                    new PieChart.Data("IPV6", PCapInterface.packetStat.getIpv6Count()));
+                FXCollections.observableArrayList(
+                        new PieChart.Data("IPV4", PCapInterface.packetStat.getIpv4Count()),
+                        new PieChart.Data("IPV6", PCapInterface.packetStat.getIpv6Count()));
         pieIP.setData(pieChartData);
+    }
+
+    //Plug in pie chart values for Packets lost distribution chart
+    @FXML
+    public void setPiePacketsLost(){
+        ObservableList<PieChart.Data> pieChartData =
+                FXCollections.observableArrayList(
+                        new PieChart.Data("Lost", PCapInterface.packetStat.getPacketLost()),
+                        new PieChart.Data("Received", PCapInterface.packetStat.getPacketCount()));
+        piePacketsLost.setData(pieChartData);
     }
 
     @Override
@@ -289,7 +310,7 @@ public class Controller implements Initializable{
         intitializeIPV6Table();
         initializeUDPTable();
         initializeTCPTable();
-        
+
     }
 
     private void updateTables() {
@@ -330,8 +351,11 @@ public class Controller implements Initializable{
         tcpBytesAB.setCellValueFactory(cellData -> cellData.getValue().bytesAToBProperty().asObject());
         tcpBytesBA.setCellValueFactory(cellData -> cellData.getValue().bytesBToAProperty().asObject());
         tcpDuration.setCellValueFactory(cellData -> cellData.getValue().durationProperty().asObject());
+        tcpDuration.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.0000")));
         tcpBpsAB.setCellValueFactory(cellData -> cellData.getValue().bpsAToBProperty().asObject());
+        tcpBpsAB.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00")));
         tcpBpsBA.setCellValueFactory(cellData -> cellData.getValue().bpsBToAProperty().asObject());
+        tcpBpsBA.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00")));
     }
 
     private void initializeUDPTable() {
@@ -347,8 +371,11 @@ public class Controller implements Initializable{
         udpBytesAB.setCellValueFactory(cellData -> cellData.getValue().bytesAToBProperty().asObject());
         udpBytesBA.setCellValueFactory(cellData -> cellData.getValue().bytesBToAProperty().asObject());
         udpDuration.setCellValueFactory(cellData -> cellData.getValue().durationProperty().asObject());
+        udpDuration.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.0000")));
         udpBpsAB.setCellValueFactory(cellData -> cellData.getValue().bpsAToBProperty().asObject());
+        udpBpsAB.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00")));
         udpBpsBA.setCellValueFactory(cellData -> cellData.getValue().bpsBToAProperty().asObject());
+        udpBpsBA.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00")));
     }
 
     private void intitializeIPV6Table() {
@@ -361,8 +388,11 @@ public class Controller implements Initializable{
         ipv6BytesAB.setCellValueFactory(cellData -> cellData.getValue().bytesAToBProperty().asObject());
         ipv6BytesBA.setCellValueFactory(cellData -> cellData.getValue().bytesBToAProperty().asObject());
         ipv6Duration.setCellValueFactory(cellData -> cellData.getValue().durationProperty().asObject());
+        ipv6Duration.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.0000")));
         ipv6BpsAB.setCellValueFactory(cellData -> cellData.getValue().bpsAToBProperty().asObject());
+        ipv6Duration.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00")));
         ipv6BpsBA.setCellValueFactory(cellData -> cellData.getValue().bpsBToAProperty().asObject());
+        ipv6BpsBA.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00")));
         ipv6MinHop.setCellValueFactory(cellData -> cellData.getValue().minTTLProperty().asObject());
         ipv6MaxHop.setCellValueFactory(cellData -> cellData.getValue().maxTTLProperty().asObject());
         ipv6AvgHop.setCellValueFactory(cellData -> cellData.getValue().avgTTLProperty().asObject());
@@ -378,8 +408,11 @@ public class Controller implements Initializable{
         ipv4BytesAB.setCellValueFactory(cellData -> cellData.getValue().bytesAToBProperty().asObject());
         ipv4BytesBA.setCellValueFactory(cellData -> cellData.getValue().bytesBToAProperty().asObject());
         ipv4Duration.setCellValueFactory(cellData -> cellData.getValue().durationProperty().asObject());
+        ipv4Duration.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.0000")));
         ipv4BpsAB.setCellValueFactory(cellData -> cellData.getValue().bpsAToBProperty().asObject());
+        ipv4BpsAB.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00")));
         ipv4BpsBA.setCellValueFactory(cellData -> cellData.getValue().bpsBToAProperty().asObject());
+        ipv4BpsBA.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00")));
         ipv4MinTTL.setCellValueFactory(cellData -> cellData.getValue().minTTLProperty().asObject());
         ipv4MaxTTL.setCellValueFactory(cellData -> cellData.getValue().maxTTLProperty().asObject());
         ipv4AvgTTL.setCellValueFactory(cellData -> cellData.getValue().avgTTLProperty().asObject());
@@ -396,7 +429,41 @@ public class Controller implements Initializable{
         ethBytesAB.setCellValueFactory(cellData -> cellData.getValue().bytesAToBProperty().asObject());
         ethBytesBA.setCellValueFactory(cellData -> cellData.getValue().bytesBToAProperty().asObject());
         ethDuration.setCellValueFactory(cellData -> cellData.getValue().durationProperty().asObject());
+        ethDuration.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.0000")));
         ethBpsAB.setCellValueFactory(cellData -> cellData.getValue().bpsAToBProperty().asObject());
+        ethBpsAB.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00")));
         ethBpsBA.setCellValueFactory(cellData -> cellData.getValue().bpsBToAProperty().asObject());
+        ethBpsBA.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00")));
+    }
+
+    public class DecimalColumnFactory<S, T extends Number> implements Callback<TableColumn<S, T>, TableCell<S, T>> {
+
+        private DecimalFormat format;
+
+        public DecimalColumnFactory(DecimalFormat format) {
+            super();
+            this.format = format;
+        }
+
+        @Override
+        public TableCell<S, T> call(TableColumn<S, T> param) {
+            return new TableCell<S, T>() {
+
+                @Override
+                protected void updateItem(T item, boolean empty) {
+                    if (!empty && item != null) {
+                        if (item.doubleValue() == 0.0) {
+                            setText("N/A");
+                        } else {
+                            setText(format.format(item.doubleValue()));
+                        }
+                    } else {
+                        setText("");
+                    }
+                }
+            };
+        }
     }
 }
+
+

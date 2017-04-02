@@ -351,11 +351,11 @@ public class Controller implements Initializable{
         tcpBytesAB.setCellValueFactory(cellData -> cellData.getValue().bytesAToBProperty().asObject());
         tcpBytesBA.setCellValueFactory(cellData -> cellData.getValue().bytesBToAProperty().asObject());
         tcpDuration.setCellValueFactory(cellData -> cellData.getValue().durationProperty().asObject());
-        tcpDuration.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.0000")));
+        tcpDuration.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.0000"), false));
         tcpBpsAB.setCellValueFactory(cellData -> cellData.getValue().bpsAToBProperty().asObject());
-        tcpBpsAB.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00")));
+        tcpBpsAB.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00"), true));
         tcpBpsBA.setCellValueFactory(cellData -> cellData.getValue().bpsBToAProperty().asObject());
-        tcpBpsBA.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00")));
+        tcpBpsBA.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00"), true));
     }
 
     private void initializeUDPTable() {
@@ -371,11 +371,11 @@ public class Controller implements Initializable{
         udpBytesAB.setCellValueFactory(cellData -> cellData.getValue().bytesAToBProperty().asObject());
         udpBytesBA.setCellValueFactory(cellData -> cellData.getValue().bytesBToAProperty().asObject());
         udpDuration.setCellValueFactory(cellData -> cellData.getValue().durationProperty().asObject());
-        udpDuration.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.0000")));
+        udpDuration.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.0000"), false));
         udpBpsAB.setCellValueFactory(cellData -> cellData.getValue().bpsAToBProperty().asObject());
-        udpBpsAB.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00")));
+        udpBpsAB.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00"), true));
         udpBpsBA.setCellValueFactory(cellData -> cellData.getValue().bpsBToAProperty().asObject());
-        udpBpsBA.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00")));
+        udpBpsBA.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00"), true));
     }
 
     private void intitializeIPV6Table() {
@@ -388,11 +388,11 @@ public class Controller implements Initializable{
         ipv6BytesAB.setCellValueFactory(cellData -> cellData.getValue().bytesAToBProperty().asObject());
         ipv6BytesBA.setCellValueFactory(cellData -> cellData.getValue().bytesBToAProperty().asObject());
         ipv6Duration.setCellValueFactory(cellData -> cellData.getValue().durationProperty().asObject());
-        ipv6Duration.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.0000")));
+        ipv6Duration.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.0000"), false));
         ipv6BpsAB.setCellValueFactory(cellData -> cellData.getValue().bpsAToBProperty().asObject());
-        ipv6Duration.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00")));
+        ipv6Duration.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00"), true));
         ipv6BpsBA.setCellValueFactory(cellData -> cellData.getValue().bpsBToAProperty().asObject());
-        ipv6BpsBA.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00")));
+        ipv6BpsBA.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00"), true));
         ipv6MinHop.setCellValueFactory(cellData -> cellData.getValue().minTTLProperty().asObject());
         ipv6MaxHop.setCellValueFactory(cellData -> cellData.getValue().maxTTLProperty().asObject());
         ipv6AvgHop.setCellValueFactory(cellData -> cellData.getValue().avgTTLProperty().asObject());
@@ -408,11 +408,11 @@ public class Controller implements Initializable{
         ipv4BytesAB.setCellValueFactory(cellData -> cellData.getValue().bytesAToBProperty().asObject());
         ipv4BytesBA.setCellValueFactory(cellData -> cellData.getValue().bytesBToAProperty().asObject());
         ipv4Duration.setCellValueFactory(cellData -> cellData.getValue().durationProperty().asObject());
-        ipv4Duration.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.0000")));
+        ipv4Duration.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.0000"), false));
         ipv4BpsAB.setCellValueFactory(cellData -> cellData.getValue().bpsAToBProperty().asObject());
-        ipv4BpsAB.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00")));
+        ipv4BpsAB.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00"), true));
         ipv4BpsBA.setCellValueFactory(cellData -> cellData.getValue().bpsBToAProperty().asObject());
-        ipv4BpsBA.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00")));
+        ipv4BpsBA.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00"), true));
         ipv4MinTTL.setCellValueFactory(cellData -> cellData.getValue().minTTLProperty().asObject());
         ipv4MaxTTL.setCellValueFactory(cellData -> cellData.getValue().maxTTLProperty().asObject());
         ipv4AvgTTL.setCellValueFactory(cellData -> cellData.getValue().avgTTLProperty().asObject());
@@ -429,20 +429,21 @@ public class Controller implements Initializable{
         ethBytesAB.setCellValueFactory(cellData -> cellData.getValue().bytesAToBProperty().asObject());
         ethBytesBA.setCellValueFactory(cellData -> cellData.getValue().bytesBToAProperty().asObject());
         ethDuration.setCellValueFactory(cellData -> cellData.getValue().durationProperty().asObject());
-        ethDuration.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.0000")));
+        ethDuration.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.0000"), false));
         ethBpsAB.setCellValueFactory(cellData -> cellData.getValue().bpsAToBProperty().asObject());
-        ethBpsAB.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00")));
+        ethBpsAB.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00"), true));
         ethBpsBA.setCellValueFactory(cellData -> cellData.getValue().bpsBToAProperty().asObject());
-        ethBpsBA.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00")));
+        ethBpsBA.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00"), true));
     }
 
     public class DecimalColumnFactory<S, T extends Number> implements Callback<TableColumn<S, T>, TableCell<S, T>> {
 
         private DecimalFormat format;
-
-        public DecimalColumnFactory(DecimalFormat format) {
+        private boolean zeroAsNA;
+        public DecimalColumnFactory(DecimalFormat format, boolean zeroAsNA) {
             super();
             this.format = format;
+            this.zeroAsNA = zeroAsNA;
         }
 
         @Override
@@ -452,7 +453,7 @@ public class Controller implements Initializable{
                 @Override
                 protected void updateItem(T item, boolean empty) {
                     if (!empty && item != null) {
-                        if (item.doubleValue() == 0.0) {
+                        if (item.doubleValue() == 0.0 && zeroAsNA) {
                             setText("N/A");
                         } else {
                             setText(format.format(item.doubleValue()));

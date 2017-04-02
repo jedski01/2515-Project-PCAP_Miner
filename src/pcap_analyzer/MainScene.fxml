@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+
+<AnchorPane prefHeight="600.0" prefWidth="825.0" styleClass="filename" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pcap_analyzer.MainScene">
+    <stylesheets>
+        <URL value="@stylesheets/main.css" />
+    </stylesheets>
+    <children>
+      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Open" />
+                  <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Conversation">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Ethernet" />
+                  <MenuItem mnemonicParsing="false" text="IPv4" />
+                  <MenuItem mnemonicParsing="false" text="IPv6" />
+                  <MenuItem mnemonicParsing="false" text="TCP" />
+                  <MenuItem mnemonicParsing="false" text="UDP" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Label layoutX="21.0" layoutY="59.0" styleClass="medium-label" text="no-file.pcap" />
+      <VBox layoutX="21.0" layoutY="91.0" prefHeight="478.0" prefWidth="279.0" style="-fx-border-color: #000;">
+         <children>
+            <Label styleClass="large-label" text="0" />
+            <Label styleClass="medium-label" text="Packet Count" />
+            <Label styleClass="large-label" text="0" />
+            <Label styleClass="medium-label" text="Packets / Sec" />
+            <HBox prefHeight="45.0" prefWidth="277.0">
+               <children>
+                  <Label styleClass="large-label" text="0" />
+                  <Label styleClass="medium-label" text="bytes" />
+               </children>
+            </HBox>
+            <Label styleClass="medium-label" text="Averge Packet Length" />
+            <Label styleClass="large-label" text="0" />
+            <Label styleClass="medium-label" text="Retransmissions" />
+         </children></VBox>
+      <VBox layoutX="313.0" layoutY="91.0" prefHeight="478.0" prefWidth="490.0" style="-fx-border-color: #000;" />
+   </children>
+
+
+</AnchorPane>

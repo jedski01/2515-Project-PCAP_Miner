@@ -1,0 +1,16 @@
+.root {
+    -fx-font-family: "Calibri";
+}
+.menu-item {
+    -fx-pref-width: 100px;
+}
+
+.large-label {
+    -fx-font-size: 34pt;
+}
+
+.medium-label {
+    -fx-font-family: "Calibri";
+    -fx-font-size: 14pt;
+    -fx-padding: 0 0 10 0;
+}

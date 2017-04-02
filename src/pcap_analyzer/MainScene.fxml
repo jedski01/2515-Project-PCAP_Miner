@@ -42,18 +42,18 @@
       <VBox layoutX="21.0" layoutY="91.0" prefHeight="478.0" prefWidth="279.0">
          <children>
             <Label fx:id="lblPacketCount" styleClass="large-label" text="0" />
-            <Label styleClass="medium-label" text="Packet Count" />
+            <Label styleClass="medium-label" text="Packet Count" underline="true" />
             <Label fx:id="lblPacketsPerSec" styleClass="large-label" text="0" />
-            <Label styleClass="medium-label" text="Packets / Sec" />
+            <Label styleClass="medium-label" text="Packets / Sec" underline="true" />
             <HBox prefHeight="45.0" prefWidth="277.0">
                <children>
                   <Label fx:id="lblAveragePacketLength" styleClass="large-label" text="0" />
                   <Label alignment="BOTTOM_LEFT" prefHeight="64.0" prefWidth="43.0" styleClass="medium-label" text="bytes" underline="true" />
                </children>
             </HBox>
-            <Label styleClass="medium-label" text="Averge Packet Length" />
+            <Label styleClass="medium-label" text="Averge Packet Length" underline="true" />
             <Label fx:id="lblRetransmission" styleClass="large-label" text="0" />
-            <Label styleClass="medium-label" text="Retransmissions" />
+            <Label styleClass="medium-label" text="Retransmissions" underline="true" />
          </children></VBox>
       <VBox layoutX="313.0" layoutY="91.0" prefHeight="478.0" prefWidth="490.0">
          <children>

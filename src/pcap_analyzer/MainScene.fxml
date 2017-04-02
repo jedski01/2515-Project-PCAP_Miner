@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.net.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -8,7 +9,7 @@
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
 
-<AnchorPane prefHeight="600.0" prefWidth="825.0" styleClass="filename" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pcap_analyzer.MainScene">
+<AnchorPane prefHeight="600.0" prefWidth="825.0" styleClass="filename" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pcap_analyzer.MainSceneController">
     <stylesheets>
         <URL value="@stylesheets/main.css" />
     </stylesheets>
@@ -17,7 +18,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Open" />
+              <MenuItem mnemonicParsing="false" onAction="#handleOpenFileAction" text="Open" />
                   <MenuItem mnemonicParsing="false" text="Close" />
             </items>
           </Menu>
@@ -37,24 +38,50 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Label layoutX="21.0" layoutY="59.0" styleClass="medium-label" text="no-file.pcap" />
-      <VBox layoutX="21.0" layoutY="91.0" prefHeight="478.0" prefWidth="279.0" style="-fx-border-color: #000;">
+      <Label fx:id="lblFilename" layoutX="21.0" layoutY="59.0" styleClass="medium-label" text="no-file.pcap" />
+      <VBox layoutX="21.0" layoutY="91.0" prefHeight="478.0" prefWidth="279.0">
          <children>
-            <Label styleClass="large-label" text="0" />
+            <Label fx:id="lblPacketCount" styleClass="large-label" text="0" />
             <Label styleClass="medium-label" text="Packet Count" />
-            <Label styleClass="large-label" text="0" />
+            <Label fx:id="lblPacketsPerSec" styleClass="large-label" text="0" />
             <Label styleClass="medium-label" text="Packets / Sec" />
             <HBox prefHeight="45.0" prefWidth="277.0">
                <children>
-                  <Label styleClass="large-label" text="0" />
-                  <Label styleClass="medium-label" text="bytes" />
+                  <Label fx:id="lblAveragePacketLength" styleClass="large-label" text="0" />
+                  <Label alignment="BOTTOM_LEFT" prefHeight="64.0" prefWidth="43.0" styleClass="medium-label" text="bytes" underline="true" />
                </children>
             </HBox>
             <Label styleClass="medium-label" text="Averge Packet Length" />
-            <Label styleClass="large-label" text="0" />
+            <Label fx:id="lblRetransmission" styleClass="large-label" text="0" />
             <Label styleClass="medium-label" text="Retransmissions" />
          </children></VBox>
-      <VBox layoutX="313.0" layoutY="91.0" prefHeight="478.0" prefWidth="490.0" style="-fx-border-color: #000;" />
+      <VBox layoutX="313.0" layoutY="91.0" prefHeight="478.0" prefWidth="490.0">
+         <children>
+            <HBox prefHeight="30.0" prefWidth="488.0">
+               <children>
+                  <ToggleButton fx:id="btnTransport" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleTransportButtonAction" selected="true" styleClass="button-medium" text="TCP and UDP" HBox.hgrow="ALWAYS">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="dataButtonGroup" />
+                     </toggleGroup>
+                  </ToggleButton>
+                  <ToggleButton fx:id="btnIp" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleIPButtonAction" text="IPv4 and IPv6" toggleGroup="$dataButtonGroup" HBox.hgrow="ALWAYS" />
+                  <ToggleButton fx:id="btnRetransmission" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRetransmissionButtonAction" text="Retransmission" toggleGroup="$dataButtonGroup" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <StackPane fx:id="replaceablePane" prefHeight="406.0" prefWidth="488.0" />
+            <HBox alignment="TOP_CENTER" prefHeight="25.0" prefWidth="488.0">
+               <children>
+                  <RadioButton fx:id="rdoPie" mnemonicParsing="false" onAction="#handlePieChartRadioAction" prefWidth="100.0" selected="true" text="Pie Chart">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="chartToggleGroup" />
+                     </toggleGroup></RadioButton>
+                  <RadioButton fx:id="rdoBar" mnemonicParsing="false" onAction="#handleBarChartRadioAction" prefWidth="100.0" text="Bar Chart" toggleGroup="$chartToggleGroup" />
+               </children>
+               <padding>
+                  <Insets left="10.0" top="10.0" />
+               </padding>
+            </HBox>
+         </children></VBox>
    </children>
 
 

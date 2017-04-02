@@ -7,10 +7,21 @@
 
 .large-label {
     -fx-font-size: 34pt;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 -15 0;
 }
 
 .medium-label {
     -fx-font-family: "Calibri";
     -fx-font-size: 14pt;
     -fx-padding: 0 0 10 0;
+}
+
+.button-medium
+{
+
+}
+
+.button-medium:selected {
+
 }

@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.String?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Label?>
@@ -17,8 +26,84 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="846.0" prefWidth="1345.0" styleClass="root" stylesheets="@pcap_interface.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pcap_analyzer.Controller">
+<AnchorPane prefHeight="846.0" prefWidth="1345.0" styleClass="root" stylesheets="@pcap_interface.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pcap_analyzer.Controller">
    <children>
+      <VBox layoutX="14.0" layoutY="65.0" prefHeight="200.0" prefWidth="315.0">
+         <children>
+            <Label fx:id="lblFileName" prefHeight="81.0" prefWidth="568.0" style="-fx-border-radius: 50px;" text="File.pcap">
+               <font>
+                  <Font name="Segoe UI Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblPackets" contentDisplay="CENTER" prefHeight="72.0" prefWidth="233.0" text="0">
+               <font>
+                  <Font name="Trebuchet MS Bold" size="61.0" />
+               </font>
+            </Label>
+            <Label alignment="TOP_LEFT" contentDisplay="RIGHT" prefHeight="51.0" prefWidth="226.0" text="Packets">
+               <font>
+                  <Font name="Trebuchet MS" size="22.0" />
+               </font>
+            </Label>
+            <Line endX="100.0" startX="-100.0">
+               <effect>
+                  <MotionBlur angle="360.0" radius="29.14" />
+               </effect>
+            </Line>
+            <Label fx:id="lblAvgPacketSec" contentDisplay="CENTER" prefHeight="72.0" prefWidth="233.0" text="0">
+               <font>
+                  <Font name="Trebuchet MS Bold" size="61.0" />
+               </font>
+            </Label>
+            <Label alignment="TOP_LEFT" contentDisplay="CENTER" prefHeight="51.0" prefWidth="233.0" text="Avg packet/sec">
+               <font>
+                  <Font name="Trebuchet MS" size="21.0" />
+               </font>
+            </Label>
+            <Line endX="100.0" startX="-100.0">
+               <effect>
+                  <MotionBlur angle="360.0" radius="29.14" />
+               </effect>
+            </Line>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="lblAvgPacketSize" contentDisplay="CENTER" text="0">
+                     <font>
+                        <Font name="Trebuchet MS Bold" size="61.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="BOTTOM_LEFT" prefHeight="62.0" prefWidth="80.0" text="bytes">
+                     <font>
+                        <Font name="Trebuchet MS" size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <Label alignment="TOP_LEFT" contentDisplay="CENTER" prefHeight="32.0" prefWidth="201.0" text="Avg packet size">
+               <font>
+                  <Font name="Trebuchet MS" size="21.0" />
+               </font>
+            </Label>
+            <Line endX="100.0" startX="-100.0">
+               <effect>
+                  <MotionBlur angle="360.0" radius="29.14" />
+               </effect>
+            </Line>
+            <Label fx:id="lblPacketsLost" contentDisplay="CENTER" prefHeight="72.0" prefWidth="233.0" text="0">
+               <font>
+                  <Font name="Trebuchet MS Bold" size="61.0" />
+               </font>
+            </Label>
+            <Label alignment="TOP_LEFT" prefHeight="25.0" prefWidth="233.0" text="Packets lost">
+               <font>
+                  <Font name="Trebuchet MS" size="21.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
       <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
@@ -29,11 +114,6 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Label fx:id="lblFileName" layoutX="20.0" layoutY="43.0" prefHeight="81.0" prefWidth="568.0" style="-fx-border-radius: 50px;" text="File.pcap">
-         <font>
-            <Font name="Segoe UI Bold" size="36.0" />
-         </font>
-      </Label>
     <AnchorPane layoutX="316.0" layoutY="223.0" minHeight="295.0" minWidth="272.0" prefHeight="295.0" prefWidth="272.0" AnchorPane.bottomAnchor="328.0" AnchorPane.leftAnchor="316.0" AnchorPane.topAnchor="223.0">
          <children>
             <PieChart fx:id="piePacketsLost" labelLineLength="15.0" prefHeight="295.0" prefWidth="272.0" stylesheets="@pcap_interface.css" title="Packet Lost Distribution" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -194,62 +274,7 @@
                </styleClass></PieChart>
          </children>
       </AnchorPane>
-      <Label alignment="TOP_LEFT" contentDisplay="RIGHT" layoutX="37.0" layoutY="196.0" prefHeight="51.0" prefWidth="226.0" text="Packets">
-         <font>
-            <Font name="Trebuchet MS" size="22.0" />
-         </font>
-      </Label>
-      <Label fx:id="lblPackets" contentDisplay="CENTER" layoutX="33.0" layoutY="138.0" prefHeight="72.0" prefWidth="233.0" text="0">
-         <font>
-            <Font name="Trebuchet MS Bold" size="61.0" />
-         </font>
-      </Label>
-      <Label fx:id="lblAvgPacketSec" contentDisplay="CENTER" layoutX="33.0" layoutY="233.0" prefHeight="72.0" prefWidth="233.0" text="0">
-         <font>
-            <Font name="Trebuchet MS Bold" size="61.0" />
-         </font>
-      </Label>
-      <Label alignment="TOP_LEFT" contentDisplay="CENTER" layoutX="33.0" layoutY="296.0" prefHeight="51.0" prefWidth="233.0" text="Avg packet/sec">
-         <font>
-            <Font name="Trebuchet MS" size="21.0" />
-         </font>
-      </Label>
-      <Label alignment="TOP_LEFT" contentDisplay="CENTER" layoutX="36.0" layoutY="397.0" prefHeight="32.0" prefWidth="201.0" text="Avg packet size">
-         <font>
-            <Font name="Trebuchet MS" size="21.0" />
-         </font>
-      </Label>
-      <Label fx:id="lblAvgPacketSize" contentDisplay="CENTER" layoutX="33.0" layoutY="334.0" prefHeight="72.0" prefWidth="233.0" text="0">
-         <font>
-            <Font name="Trebuchet MS Bold" size="61.0" />
-         </font>
-      </Label>
-      <Label fx:id="lblPacketsLost" contentDisplay="CENTER" layoutX="35.0" layoutY="437.0" prefHeight="72.0" prefWidth="233.0" text="0">
-         <font>
-            <Font name="Trebuchet MS Bold" size="61.0" />
-         </font>
-      </Label>
-      <Label alignment="TOP_LEFT" layoutX="34.0" layoutY="497.0" prefHeight="25.0" prefWidth="233.0" text="Packets lost">
-         <font>
-            <Font name="Trebuchet MS" size="21.0" />
-         </font>
-      </Label>
-      <Line endX="100.0" layoutX="138.0" layoutY="233.0" startX="-100.0">
-         <effect>
-            <MotionBlur angle="360.0" radius="29.14" />
-         </effect>
-      </Line>
-      <Line endX="100.0" layoutX="138.0" layoutY="334.0" startX="-100.0">
-         <effect>
-            <MotionBlur angle="360.0" radius="29.14" />
-         </effect>
-      </Line>
-      <Line endX="100.0" layoutX="138.0" layoutY="437.0" startX="-100.0">
-         <effect>
-            <MotionBlur angle="360.0" radius="29.14" />
-         </effect>
-      </Line>
-      <AnchorPane layoutX="600.0" layoutY="537.0" prefHeight="295.0" prefWidth="736.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="9.0">
+      <AnchorPane layoutX="600.0" layoutY="537.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="9.0">
          <children>
             <ImageView fitHeight="280.0" fitWidth="711.0" layoutX="96.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="114.0" AnchorPane.topAnchor="0.0">
                <image>

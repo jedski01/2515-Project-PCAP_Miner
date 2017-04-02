@@ -221,6 +221,9 @@ public class Controller implements Initializable{
         btnOpenFile.setTitle("Open PCAP file");
         File pcapFile = btnOpenFile.showOpenDialog(new Stage());
 
+        if (pcapFile == null) {
+            return;
+        }
         //get filename of selected file so to use loadFromFile method from the PCapInterface
         String inpFileName = pcapFile.getAbsolutePath();
         String fname = pcapFile.getName();
@@ -233,13 +236,12 @@ public class Controller implements Initializable{
             e.printStackTrace();
             System.out.println("Error! Cannot read file");
         }
-
         try {
             PCapInterface.processPcapFile(handle);
         } catch (PcapNativeException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         } catch (NotOpenException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         PCapInterface.updateAllConversationModels();
         //set metric values

@@ -1,7 +1,13 @@
 package pcap_analyzer;
 
+import conversation.ConversationModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
@@ -11,8 +17,10 @@ import org.pcap4j.core.PcapHandle;
 import org.pcap4j.core.PcapNativeException;
 import pcap_packets.PCapInterface;
 import pcap_packets.PacketStat;
+import pcap_packets.Protocol;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,8 +35,13 @@ public class MainSceneController implements Initializable, ControlledScreen{
         IP, TRANSPORT, RETRANSMISSION
     }
 
+
+
     private ShareableData shareableData = ShareableData.getInstance();
     private HashMap<PieChartNames, ArrayList<DataItem>> statDataItems = new HashMap<>();
+    private HashMap<Protocol, Stage> conversationWindows = new HashMap<>();
+    private HashMap<Protocol, ConversationController> conversationController = new HashMap<>();
+
     @FXML
     private Label lblFilename;
     @FXML
@@ -121,6 +134,21 @@ public class MainSceneController implements Initializable, ControlledScreen{
         } else {
             myController.setScreen(Main.barChartScreen, replaceablePane);
         }
+
+        //update table here
+        //((ConversationController)conversationController.get(Protocol.ETHERNET)).setData();
+        updateTables();
+
+    }
+
+    private void updateTables() {
+
+        for (Protocol protocol : Protocol.values()) {
+
+            ObservableList<ConversationModel> cm =
+                    FXCollections.observableArrayList(PCapInterface.getConversationModel(protocol));
+            conversationController.get(protocol).setData(cm);
+         }
     }
 
     @FXML
@@ -164,9 +192,35 @@ public class MainSceneController implements Initializable, ControlledScreen{
         myController.setScreen(Main.barChartScreen, replaceablePane);
     }
 
+    @FXML
+    private void handleEthernetMenuItemAction() {
+        showConversationWindow(Protocol.ETHERNET);
+    }
+
+    @FXML
+    private void handleIPv4MenuItemAction() {
+        showConversationWindow(Protocol.IPV4);
+    }
+
+    @FXML
+    private void handleIPv6MenuItemAction() {
+        showConversationWindow(Protocol.IPV6);
+    }
+
+    @FXML
+    private void handleTCPMenuItemAction() {
+        showConversationWindow(Protocol.TCP);
+    }
+
+    @FXML
+    private void handleUDPMenuItemAction() {
+        showConversationWindow(Protocol.UDP);
+    }
+
+
     //VALUE SETTINGS TO BE USED BY PIE CHART AND LABELS
     private void setLabelValues(String filename, PacketStat stat) {
-        lblFilename.setText(filename);
+        lblFilename.setText("File: "+filename);
         lblAveragePacketLength.setText(String.format("%d", stat.getAvgPacketSize()));
         lblPacketCount.setText(String.format("%d", stat.getPacketCount()));
         lblPacketsPerSec.setText(String.format("%d",stat.getPacketPerSec()));
@@ -210,13 +264,61 @@ public class MainSceneController implements Initializable, ControlledScreen{
         return result;
     }
 
-
+    private void showConversationWindow(Protocol protocol) {
+        conversationWindows.get(protocol).show();
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         for (PieChartNames name : PieChartNames.values()) {
             statDataItems.put(name, new ArrayList<DataItem>());
+        }
+
+        for (Protocol protocol : Protocol.values()) {
+            String resource = "";
+            String title = "";
+            Stage newStage = new Stage();
+            FXMLLoader newFXMLLoader = null;
+            switch (protocol) {
+                case ETHERNET:
+                    resource = Main.defaultConvFXML;
+                    title = "Ethernet Conversations";
+                    break;
+                case IPV4:
+                    resource = Main.ipv4ConvFXML;
+                    title = "IPv4 Conversations";
+                    break;
+                case IPV6:
+                    resource = Main.ipv6ConvFXML;
+                    title = "IPv6 Conversations";
+                    break;
+                case TCP:
+                    resource = Main.tcpConvFXML;
+                    title = "TCP Conversations";
+                    break;
+                case UDP:
+                    resource = Main.udpConvFXML;
+                    title = "UDP Conversations";
+                    break;
+                default:
+                    return;
+
+            }
+            try
+            {
+                newFXMLLoader = new FXMLLoader(getClass().getResource(resource));
+                Parent newRoot = (Parent) newFXMLLoader.load();
+                newStage.setTitle(title);
+                newStage.setScene(new Scene(newRoot));
+
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            conversationWindows.put(protocol, newStage);
+            conversationController.put(protocol, newFXMLLoader.getController());
         }
     }
 

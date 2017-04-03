@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="501.0" prefWidth="1214.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pcap_analyzer.IPConversationController">
+   <children>
+      <TableView fx:id="tableView" prefHeight="501.0" prefWidth="1214.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <columns>
+            <TableColumn fx:id="addressA" prefWidth="119.0" text="Address A" />
+            <TableColumn fx:id="addressB" prefWidth="110.0" text="Address B" />
+            <TableColumn fx:id="totalPackets" prefWidth="94.0" text="Total Packets" />
+            <TableColumn fx:id="totalBytes" prefWidth="96.0" text="Total Bytes" />
+            <TableColumn fx:id="byteAB" prefWidth="85.0" text="Bytes A-&gt;B" />
+            <TableColumn fx:id="bytesBA" prefWidth="92.0" text="Bytes A&lt;-B" />
+            <TableColumn fx:id="packetsAB" prefWidth="91.0" text="Packets A-&gt;B" />
+            <TableColumn fx:id="packetsBA" prefWidth="90.0" text="Packets B&lt;-A" />
+            <TableColumn fx:id="duration" prefWidth="70.0" text="Duration" />
+            <TableColumn fx:id="bpsAB" prefWidth="70.0" text="bps A-&gt;B" />
+            <TableColumn fx:id="bpsBA" prefWidth="70.0" text="bps A&lt;-B" />
+            <TableColumn fx:id="minTTL" prefWidth="70.0" text="Min Hop" />
+            <TableColumn fx:id="avgTTL" prefWidth="70.0" text="Avg Hop" />
+            <TableColumn fx:id="maxTTL" prefWidth="86.0" text="Max Hop" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

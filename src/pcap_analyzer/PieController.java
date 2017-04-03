@@ -31,6 +31,11 @@ public class PieController implements Initializable, ControlledScreen {
     }
 
     @Override
+    public void handleCloseAction() {
+        //do nothing
+    }
+
+    @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         loadDataFromSharedModel();
@@ -56,5 +61,7 @@ public class PieController implements Initializable, ControlledScreen {
             pieChartData.add(new PieChart.Data(dataLabel, item.getValue()));
         }
     }
+
+
 
 }

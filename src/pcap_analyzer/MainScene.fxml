@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
 
-<AnchorPane prefHeight="600.0" prefWidth="825.0" styleClass="filename" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pcap_analyzer.MainSceneController">
+<AnchorPane fx:id="rootPane" prefHeight="600.0" prefWidth="825.0" styleClass="filename" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pcap_analyzer.MainSceneController">
     <stylesheets>
         <URL value="@stylesheets/main.css" />
     </stylesheets>
@@ -19,7 +19,7 @@
           <Menu mnemonicParsing="false" text="File">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#handleOpenFileAction" text="Open" />
-                  <MenuItem mnemonicParsing="false" text="Close" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleCloseAction" text="Close" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Conversation">

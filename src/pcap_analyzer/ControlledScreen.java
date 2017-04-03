@@ -17,4 +17,6 @@ public interface ControlledScreen {
     // RJN added
     // This method allows us to define a function that runs each time a screen is made visible
     public void onSetScreen();
+
+    public void handleCloseAction();
 }

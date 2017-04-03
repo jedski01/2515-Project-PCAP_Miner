@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -35,13 +36,13 @@ public class MainSceneController implements Initializable, ControlledScreen{
         IP, TRANSPORT, RETRANSMISSION
     }
 
-
-
     private ShareableData shareableData = ShareableData.getInstance();
     private HashMap<PieChartNames, ArrayList<DataItem>> statDataItems = new HashMap<>();
     private HashMap<Protocol, Stage> conversationWindows = new HashMap<>();
     private HashMap<Protocol, ConversationController> conversationController = new HashMap<>();
 
+    @FXML
+    private AnchorPane rootPane;
     @FXML
     private Label lblFilename;
     @FXML
@@ -79,6 +80,7 @@ public class MainSceneController implements Initializable, ControlledScreen{
 
     @FXML
     private ToggleGroup chartToggleGroup;
+
 
     ScreensController myController;
 
@@ -217,7 +219,14 @@ public class MainSceneController implements Initializable, ControlledScreen{
         showConversationWindow(Protocol.UDP);
     }
 
+    @FXML
+    public void handleCloseAction() {
 
+        for (Protocol protocol : Protocol.values()) {
+            conversationController.get(protocol).handleCloseAction();
+        }
+        ((Stage)rootPane.getScene().getWindow()).close();
+    }
     //VALUE SETTINGS TO BE USED BY PIE CHART AND LABELS
     private void setLabelValues(String filename, PacketStat stat) {
         lblFilename.setText("File: "+filename);

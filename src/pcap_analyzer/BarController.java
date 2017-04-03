@@ -52,6 +52,11 @@ public class BarController implements Initializable, ControlledScreen{
         loadDataFromSharedModel();
     }
 
+    @Override
+    public void handleCloseAction() {
+        //do nothing
+    }
+
     public void loadDataFromSharedModel() {
 
         List<DataItem> data = ShareableData.getInstance().getDistributionData();

@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -17,30 +19,32 @@ import java.util.ResourceBundle;
 public class ConversationController implements Initializable{
 
     @FXML
-    public TableView<ConversationModel> tableView = new TableView<>();
+    private AnchorPane rootPane;
+    @FXML
+    private TableView<ConversationModel> tableView = new TableView<>();
 
     @FXML
-    public TableColumn<ConversationModel, String> addressA;
+    private TableColumn<ConversationModel, String> addressA;
     @FXML
-    public TableColumn<ConversationModel, String> addressB;
+    private TableColumn<ConversationModel, String> addressB;
     @FXML
-    public TableColumn<ConversationModel, Integer> totalPackets;
+    private TableColumn<ConversationModel, Integer> totalPackets;
     @FXML
-    public TableColumn<ConversationModel, Integer> totalBytes;
+    private TableColumn<ConversationModel, Integer> totalBytes;
     @FXML
-    public TableColumn<ConversationModel, Integer> packetsAB;
+    private TableColumn<ConversationModel, Integer> packetsAB;
     @FXML
-    public TableColumn<ConversationModel, Integer> packetsBA;
+    private TableColumn<ConversationModel, Integer> packetsBA;
     @FXML
-    public TableColumn<ConversationModel, Integer> byteAB;
+    private TableColumn<ConversationModel, Integer> byteAB;
     @FXML
-    public TableColumn<ConversationModel, Integer> bytesBA;
+    private TableColumn<ConversationModel, Integer> bytesBA;
     @FXML
-    public TableColumn<ConversationModel, Double> duration;
+    private TableColumn<ConversationModel, Double> duration;
     @FXML
-    public TableColumn<ConversationModel, Double> bpsAB;
+    private TableColumn<ConversationModel, Double> bpsAB;
     @FXML
-    public TableColumn<ConversationModel, Double> bpsBA;
+    private TableColumn<ConversationModel, Double> bpsBA;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -65,6 +69,11 @@ public class ConversationController implements Initializable{
         bpsBA.setCellValueFactory(cellData -> cellData.getValue().bpsBToAProperty().asObject());
         bpsBA.setCellFactory(new DecimalColumnFactory<>(new DecimalFormat("0.00"), true));
 
+    }
+
+    public void handleCloseAction() {
+
+        ((Stage)rootPane.getScene().getWindow()).close();
     }
 
     @FXML

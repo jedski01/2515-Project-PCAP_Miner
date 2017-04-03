@@ -35,6 +35,9 @@ public class Main extends Application {
 
         mainContainer.setScreen(Main.mainScreen);
 
+        primaryStage.setOnCloseRequest(event -> {
+            mainContainer.getController(Main.mainScreen).handleCloseAction();
+        });
         Group root = new Group();
         root.getChildren().addAll(mainContainer);
         Scene scene = new Scene(root);

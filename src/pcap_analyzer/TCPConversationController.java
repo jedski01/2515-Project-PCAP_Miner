@@ -3,6 +3,7 @@ package pcap_analyzer;
 import conversation.ConversationModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
+import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -13,9 +14,12 @@ import java.util.ResourceBundle;
 public class TCPConversationController extends TransportConversationController {
 
     @FXML
-    public TableColumn<ConversationModel, Integer> retransmitAB;
+    private AnchorPane rootPane;
+
     @FXML
-    public TableColumn<ConversationModel, Integer> retransmitBA;
+    private TableColumn<ConversationModel, Integer> retransmitAB;
+    @FXML
+    private TableColumn<ConversationModel, Integer> retransmitBA;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

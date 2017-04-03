@@ -4,6 +4,7 @@ import conversation.ConversationModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
+import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -14,13 +15,16 @@ import java.util.ResourceBundle;
 public class IPConversationController extends ConversationController {
 
     @FXML
-    public TableColumn<ConversationModel, Integer> minTTL;
+    private AnchorPane rootPane;
 
     @FXML
-    public TableColumn<ConversationModel, Integer> maxTTL;
+    private TableColumn<ConversationModel, Integer> minTTL;
 
     @FXML
-    public TableColumn<ConversationModel, Integer> avgTTL;
+    private TableColumn<ConversationModel, Integer> maxTTL;
+
+    @FXML
+    private TableColumn<ConversationModel, Integer> avgTTL;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

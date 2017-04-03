@@ -274,7 +274,12 @@ public class MainSceneController implements Initializable, ControlledScreen{
     }
 
     private void showConversationWindow(Protocol protocol) {
-        conversationWindows.get(protocol).show();
+
+        if(conversationWindows.get(protocol).isShowing()) {
+            conversationWindows.get(protocol).requestFocus();
+        } else {
+            conversationWindows.get(protocol).show();
+        }
     }
 
     @Override

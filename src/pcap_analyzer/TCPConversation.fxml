@@ -6,8 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane prefHeight="509.0" prefWidth="1159.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pcap_analyzer.TransportConversationController">
+<AnchorPane prefHeight="509.0" prefWidth="1444.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pcap_analyzer.TCPConversationController">
    <children>
       <TableView fx:id="tableView" layoutX="10.0" layoutY="10.0" prefHeight="511.0" prefWidth="1207.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columns>
@@ -24,6 +23,8 @@
             <TableColumn fx:id="duration" prefWidth="70.0" text="Duration" />
             <TableColumn fx:id="bpsAB" prefWidth="70.0" text="bps A-&gt;B" />
             <TableColumn fx:id="bpsBA" prefWidth="70.0" text="bps A&lt;-B" />
+            <TableColumn fx:id="retransmitAB" prefWidth="108.0" text="Retransmit A-&gt;B" />
+            <TableColumn fx:id="retransmitBA" prefWidth="110.0" text="Retransmit A&lt;-B" />
          </columns>
       </TableView>
    </children>

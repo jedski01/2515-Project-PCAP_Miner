@@ -1,5 +1,6 @@
 .root {
     -fx-font-family: "Calibri";
+    -fx-background-color: linear-gradient(#DBDDDE, #898C90);
 }
 .menu-item {
     -fx-pref-width: 100px;
@@ -16,6 +17,7 @@
     -fx-font-size: 14pt;
     -fx-padding: 0 0 10 0;
 }
+
 
 .button-medium
 {

@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import java.net.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 <?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="rootPane" prefHeight="600.0" prefWidth="825.0" styleClass="filename" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pcap_analyzer.MainSceneController">
+<AnchorPane fx:id="rootPane" prefHeight="600.0" prefWidth="825.0" styleClass="root" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pcap_analyzer.MainSceneController">
     <stylesheets>
         <URL value="@stylesheets/main.css" />
     </stylesheets>
     <children>
-      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <MenuBar layoutY="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -39,7 +46,7 @@
         </menus>
       </MenuBar>
       <Label fx:id="lblFilename" layoutX="21.0" layoutY="59.0" styleClass="medium-label" text="File: none" />
-      <VBox layoutX="21.0" layoutY="91.0" prefHeight="478.0" prefWidth="279.0">
+      <VBox layoutX="96.0" layoutY="91.0" prefHeight="284.0" prefWidth="194.0">
          <children>
             <Label fx:id="lblPacketCount" styleClass="large-label" text="0" />
             <Label styleClass="medium-label" text="Packet Count" underline="true" />
@@ -82,6 +89,39 @@
                </padding>
             </HBox>
          </children></VBox>
+      <VBox layoutX="14.0" layoutY="91.0" prefHeight="136.0" prefWidth="70.0">
+         <children>
+            <ImageView fitHeight="71.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/packets.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="71.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/sec.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="71.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/length.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="71.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/retransmission.png" />
+               </image>
+            </ImageView>
+         </children>
+      </VBox>
+      <HBox layoutX="14.0" layoutY="464.0" prefHeight="84.0" prefWidth="202.0">
+         <children>
+            <ImageView fitHeight="135.0" fitWidth="278.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/try2.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
    </children>
 
 

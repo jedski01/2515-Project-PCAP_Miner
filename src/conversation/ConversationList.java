@@ -1,10 +1,8 @@
 package conversation;
 
-import sun.plugin2.message.Conversation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 
 /**
  * ConversationList

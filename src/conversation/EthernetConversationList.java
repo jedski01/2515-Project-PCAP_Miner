@@ -14,7 +14,6 @@ import java.util.Set;
 public class EthernetConversationList extends ConversationList {
 
     private static ConversationList instance = new EthernetConversationList();
-    private static final int FIELD_COUNT = 11;
 
     private EthernetConversationList(){}
 

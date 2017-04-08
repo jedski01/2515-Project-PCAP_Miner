@@ -90,6 +90,7 @@ public class PCapInterface {
                 //I need to do this because if i set this to return true
                 //java thinks that the codes underneath are unreachable
                 errorFound = true;
+                handle.close();
                 return !errorFound;
             } catch (EOFException e) {
                 System.out.println("EOF");
@@ -97,7 +98,7 @@ public class PCapInterface {
                 saveStat(start, end, packetCount, packetSize, ipv4Count, ipv6Count, tcpCount, udpCount);
                 return true;
             } catch (Exception e) {
-
+                handle.close();
                 return false;
 
             }

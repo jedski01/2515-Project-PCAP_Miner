@@ -136,7 +136,14 @@ public class MainSceneController implements Initializable, ControlledScreen{
         //String fname = pcapFile.getName();
         PcapHandle handle = getPcapHandleFromFile(pcapFile);
         try {
-            PCapInterface.processPcapFile(handle);
+            if(!PCapInterface.processPcapFile(handle)){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Super PCAP Analyzer Message");
+                alert.setHeaderText("Program encountered an error");
+                alert.setContentText("Program encountered problems while parsing file. Operation aborted");
+                alert.showAndWait();
+                return;
+            }
         } catch (PcapNativeException e) {
             e.printStackTrace();
         } catch (NotOpenException e) {
@@ -190,10 +197,7 @@ public class MainSceneController implements Initializable, ControlledScreen{
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error! Cannot read file");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Super PCAP Analyzer Message");
-            alert.setHeaderText("Program encountered an error");
-            alert.setContentText("Program encountered problems while parsing file. Operation aborted");
+
         }
 
         return handle;

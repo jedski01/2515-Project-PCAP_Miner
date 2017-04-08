@@ -97,12 +97,9 @@ public class PCapInterface {
                 saveStat(start, end, packetCount, packetSize, ipv4Count, ipv6Count, tcpCount, udpCount);
                 return true;
             } catch (Exception e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Super PCAP Analyzer Message");
-                alert.setHeaderText("Program encountered an error");
-                alert.setContentText("Program encountered problems while parsing file. Operation aborted");
 
-                alert.showAndWait();
+                return false;
+
             }
 
             Timestamp time = handle.getTimestamp();

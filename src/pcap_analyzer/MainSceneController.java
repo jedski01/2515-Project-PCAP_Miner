@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
@@ -47,6 +48,7 @@ public class MainSceneController implements Initializable, ControlledScreen{
             this.controller = controller;
             this.title = title;
             this.fxmlFile = fxmlFile;
+            this.stage.getIcons().add(new Image("network.png"));
         }
     }
 
@@ -125,41 +127,24 @@ public class MainSceneController implements Initializable, ControlledScreen{
 
     @FXML
     public void handleOpenFileAction() {
-        FileChooser fileChooser = new FileChooser();
 
-        //apply extension filters for PCAP files
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("PCAP Files", "*.pcap", "*.pcapng"));
-
-        //set title for the stage
-        fileChooser.setTitle("Open PCAP file");
-        File pcapFile = fileChooser.showOpenDialog(new Stage());
-
-        if (pcapFile == null) {
-            return;
-        }
         //get filename of selected file so to use loadFromFile method from the PCapInterface
-        String inpFileName = pcapFile.getAbsolutePath();
-        String fname = pcapFile.getName();
+        File pcapFile = openFileDialogBox();
+        if(pcapFile == null) return;
 
-
-        PcapHandle handle = null;
-        try {
-            handle = PCapInterface.openPcapFile(inpFileName);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Error! Cannot read file");
-        }
+        //set the filename label
+        //String fname = pcapFile.getName();
+        PcapHandle handle = getPcapHandleFromFile(pcapFile);
         try {
             PCapInterface.processPcapFile(handle);
         } catch (PcapNativeException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         } catch (NotOpenException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
 
         PCapInterface.updateAllConversationModels();
-        setLabelValues(fname, PCapInterface.packetStat);
+        setLabelValues(pcapFile.getName(), PCapInterface.packetStat);
         setPieChartDataItems();
 
         if(dataButtonGroup.getSelectedToggle().equals(btnTransport)) {
@@ -179,6 +164,39 @@ public class MainSceneController implements Initializable, ControlledScreen{
         //update table here
         //((ConversationController)conversationController.get(Protocol.ETHERNET)).setData();
         updateTables();
+
+    }
+
+    private File openFileDialogBox() {
+        FileChooser fileChooser = new FileChooser();
+
+        //apply extension filters for PCAP files
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("PCAP Files", "*.pcap", "*.pcapng"));
+
+        //set title for the stage
+        fileChooser.setTitle("Open PCAP file");
+        File pcapFile = fileChooser.showOpenDialog(new Stage());
+
+        return pcapFile;
+    }
+
+    private PcapHandle getPcapHandleFromFile(File file) {
+        String inpFileName = file.getAbsolutePath();
+
+        PcapHandle handle = null;
+        try {
+            handle = PCapInterface.openPcapFile(inpFileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error! Cannot read file");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Super PCAP Analyzer Message");
+            alert.setHeaderText("Program encountered an error");
+            alert.setContentText("Program encountered problems while parsing file. Operation aborted");
+        }
+
+        return handle;
 
     }
 

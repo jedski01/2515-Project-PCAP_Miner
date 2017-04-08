@@ -10,6 +10,7 @@
     -fx-font-size: 34pt;
     -fx-font-weight: bold;
     -fx-padding: 0 0 -15 0;
+    -fx-text-fill: rgb(10, 89, 149);
 }
 
 .medium-label {

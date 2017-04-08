@@ -36,10 +36,49 @@ public class MainSceneController implements Initializable, ControlledScreen{
         IP, TRANSPORT, RETRANSMISSION
     }
 
+    private static class WindowAttributes {
+        Stage stage;
+        ConversationController controller;
+        String title;
+        String fxmlFile;
+
+        public WindowAttributes(Stage stage, ConversationController controller, String title, String fxmlFile) {
+            this.stage = stage;
+            this.controller = controller;
+            this.title = title;
+            this.fxmlFile = fxmlFile;
+        }
+    }
+
+
     private ShareableData shareableData = ShareableData.getInstance();
     private HashMap<PieChartNames, ArrayList<DataItem>> statDataItems = new HashMap<>();
-    private HashMap<Protocol, Stage> conversationWindows = new HashMap<>();
-    private HashMap<Protocol, ConversationController> conversationController = new HashMap<>();
+
+    private static HashMap<Protocol, WindowAttributes> windows = new HashMap<>();
+    static {
+
+        WindowAttributes ethWindowAttr = new WindowAttributes(new Stage(), null,
+                "Ethernet Conversations", "DefaultConversation.fxml");
+
+        WindowAttributes ip4WindowAttr = new WindowAttributes(new Stage(), null,
+                "IPv4 Conversations", "IPv4Conversation.fxml");
+
+        WindowAttributes ip6WindowAttr = new WindowAttributes(new Stage(), null,
+                "IPv6 Conversations", "IPv6Conversation.fxml");
+
+        WindowAttributes tcpWindowAttr = new WindowAttributes(new Stage(), null,
+                "TCP Conversations", "TCPConversation.fxml");
+
+        WindowAttributes udpWindowAttr = new WindowAttributes(new Stage(), null,
+                "UDP Conversations", "UDPConversation.fxml");
+
+        windows.put(Protocol.ETHERNET, ethWindowAttr);
+        windows.put(Protocol.IPV4, ip4WindowAttr);
+        windows.put(Protocol.IPV6, ip6WindowAttr);
+        windows.put(Protocol.TCP, tcpWindowAttr);
+        windows.put(Protocol.UDP, udpWindowAttr);
+    }
+
 
     @FXML
     private AnchorPane rootPane;
@@ -146,11 +185,13 @@ public class MainSceneController implements Initializable, ControlledScreen{
     private void updateTables() {
 
         for (Protocol protocol : Protocol.values()) {
+            WindowAttributes window = windows.get(protocol);
 
             ObservableList<ConversationModel> cm =
                     FXCollections.observableArrayList(PCapInterface.getConversationModel(protocol));
-            conversationController.get(protocol).setData(cm);
-         }
+            window.controller.setData(cm);
+            window.stage.setTitle(String.format("%s (%d)", window.title, cm.size()));
+        }
     }
 
     @FXML
@@ -223,7 +264,7 @@ public class MainSceneController implements Initializable, ControlledScreen{
     public void handleCloseAction() {
 
         for (Protocol protocol : Protocol.values()) {
-            conversationController.get(protocol).handleCloseAction();
+            windows.get(protocol).controller.handleCloseAction();
         }
         ((Stage)rootPane.getScene().getWindow()).close();
     }
@@ -274,11 +315,11 @@ public class MainSceneController implements Initializable, ControlledScreen{
     }
 
     private void showConversationWindow(Protocol protocol) {
-
-        if(conversationWindows.get(protocol).isShowing()) {
-            conversationWindows.get(protocol).requestFocus();
+        Stage stage = windows.get(protocol).stage;
+        if(stage.isShowing()) {
+            stage.requestFocus();
         } else {
-            conversationWindows.get(protocol).show();
+            stage.show();
         }
     }
 
@@ -290,49 +331,21 @@ public class MainSceneController implements Initializable, ControlledScreen{
         }
 
         for (Protocol protocol : Protocol.values()) {
-            String resource = "";
-            String title = "";
-            Stage newStage = new Stage();
+            WindowAttributes window= windows.get(protocol);
             FXMLLoader newFXMLLoader = null;
-            switch (protocol) {
-                case ETHERNET:
-                    resource = Main.defaultConvFXML;
-                    title = "Ethernet Conversations";
-                    break;
-                case IPV4:
-                    resource = Main.ipv4ConvFXML;
-                    title = "IPv4 Conversations";
-                    break;
-                case IPV6:
-                    resource = Main.ipv6ConvFXML;
-                    title = "IPv6 Conversations";
-                    break;
-                case TCP:
-                    resource = Main.tcpConvFXML;
-                    title = "TCP Conversations";
-                    break;
-                case UDP:
-                    resource = Main.udpConvFXML;
-                    title = "UDP Conversations";
-                    break;
-                default:
-                    return;
-
-            }
+            Parent newRoot = null;
             try
             {
-                newFXMLLoader = new FXMLLoader(getClass().getResource(resource));
-                Parent newRoot = (Parent) newFXMLLoader.load();
-                newStage.setTitle(title);
-                newStage.setScene(new Scene(newRoot));
-
+                newFXMLLoader = new FXMLLoader(getClass().getResource(window.fxmlFile));
+                newRoot = (Parent) newFXMLLoader.load();
             }
             catch (IOException e) {
                 e.printStackTrace();
             }
 
-            conversationWindows.put(protocol, newStage);
-            conversationController.put(protocol, newFXMLLoader.getController());
+            window.stage.setTitle(window.title);
+            window.stage.setScene(new Scene(newRoot));
+            window.controller = newFXMLLoader.getController();
         }
     }
 

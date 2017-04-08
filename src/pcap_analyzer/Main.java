@@ -19,12 +19,6 @@ public class Main extends Application {
     public static String barChartScreen = "barScreen";
     public static String barChartFXML = "BarChart.fxml";
 
-    //new stages
-    public static String defaultConvFXML = "DefaultConversation.fxml";
-    public static String ipv4ConvFXML = "IPv4Conversation.fxml";
-    public static String ipv6ConvFXML = "IPv6Conversation.fxml";
-    public static String tcpConvFXML = "TCPConversation.fxml";
-    public static String udpConvFXML = "UDPConversation.fxml";
 
     @Override
     public void start(Stage primaryStage) throws Exception{

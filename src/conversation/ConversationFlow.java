@@ -16,7 +16,7 @@ public class ConversationFlow {
     private Timestamp time;
     private boolean reverse;
     private int ttl;
-    private int seq;
+    private long seq;
 
     public ConversationFlow(int bytes, Timestamp time) {
 
@@ -25,7 +25,7 @@ public class ConversationFlow {
         this.time = time;
     }
 
-    public ConversationFlow(int bytes, Timestamp time, int ttl, int seq) {
+    public ConversationFlow(int bytes, Timestamp time, int ttl, long seq) {
 
         this(bytes, time);
         this.ttl = ttl;
@@ -48,7 +48,7 @@ public class ConversationFlow {
         return ttl;
     }
 
-    public int getSeq() {
+    public long getSeq() {
         return seq;
     }
 

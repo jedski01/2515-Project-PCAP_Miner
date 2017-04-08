@@ -8,6 +8,7 @@ import java.util.concurrent.TimeoutException;
 
 import conversation.ConversationModel;
 import conversation.TcpConversationList;
+import javafx.scene.control.Alert;
 import org.pcap4j.core.NotOpenException;
 import org.pcap4j.core.PcapHandle;
 import org.pcap4j.core.PcapHandle.TimestampPrecision;
@@ -34,7 +35,7 @@ public class PCapInterface {
     static class Metrics {
         int bytes;
         int ttl;
-        int seq;
+        long seq;
         int portA;
         int portB;
     }
@@ -95,6 +96,13 @@ public class PCapInterface {
                 handle.close();
                 saveStat(start, end, packetCount, packetSize, ipv4Count, ipv6Count, tcpCount, udpCount);
                 return true;
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Super PCAP Analyzer Message");
+                alert.setHeaderText("Program encountered an error");
+                alert.setContentText("Program encountered problems while parsing file. Operation aborted");
+
+                alert.showAndWait();
             }
 
             Timestamp time = handle.getTimestamp();
@@ -261,9 +269,12 @@ public class PCapInterface {
             metric.portB = tcpHeader.getDstPort().valueAsInt();
 
             metric.bytes = packet.length();
-            metric.seq = tcpHeader.getSequenceNumber();
+            if(tcpPacket.getPayload() == null) {
+                metric.seq = -1;
+            } else {
+                metric.seq = tcpHeader.getSequenceNumber();
+            }
             return true;
-
         }
 
         return false;

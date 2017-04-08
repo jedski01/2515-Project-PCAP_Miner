@@ -25,8 +25,8 @@ public class ConversationSummaryInfo {
     private int ttls = 0;
     private int retransmitAToB = 0;
     private int retransmitBToA = 0;
-    private HashSet<Integer> seqAB = new HashSet<>();
-    private HashSet<Integer> seqBA = new HashSet<>();
+    private HashSet<Long> seqAB = new HashSet<>();
+    private HashSet<Long> seqBA = new HashSet<>();
 
 
     public int getTotalPackets() {
@@ -99,13 +99,13 @@ public class ConversationSummaryInfo {
         duration = TimeUtil.getTimeDifferenceInSeconds(start, end);
     }
 
-    public void addSeq(Integer seq, boolean reverse) {
+    public void addSeq(Long seq, boolean reverse) {
         if (reverse) {
-            if (!seqBA.add(seq)) {
+            if (seq != -1 && !seqBA.add(seq)) {
                 retransmitBToA++;
             }
         } else {
-            if (!seqAB.add(seq)) {
+            if (seq != -1 && !seqAB.add(seq)) {
                 retransmitAToB++;
             }
         }

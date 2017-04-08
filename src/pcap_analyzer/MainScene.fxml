@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -16,7 +22,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="rootPane" prefHeight="600.0" prefWidth="825.0" styleClass="root" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pcap_analyzer.MainSceneController">
+<AnchorPane fx:id="rootPane" prefHeight="600.0" prefWidth="825.0" styleClass="root" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pcap_analyzer.MainSceneController">
     <stylesheets>
         <URL value="@stylesheets/main.css" />
     </stylesheets>
@@ -36,11 +42,6 @@
                   <MenuItem mnemonicParsing="false" onAction="#handleIPv6MenuItemAction" text="IPv6" />
                   <MenuItem mnemonicParsing="false" onAction="#handleTCPMenuItemAction" text="TCP" />
                   <MenuItem mnemonicParsing="false" onAction="#handleUDPMenuItemAction" text="UDP" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
             </items>
           </Menu>
         </menus>

@@ -56,8 +56,8 @@ public class PieController implements Initializable, ControlledScreen {
         }
 
         for (DataItem item : data) {
-            int percent = (item.getValue() * 100) / total;
-            String dataLabel = item.getCategory() + " (" + item.getValue() + ") " + percent + "%";
+            double percent = (item.getValue() * 100.0) / total;
+            String dataLabel = String.format("%s (%d) %.2f%%", item.getCategory(), item.getValue(), percent);
             pieChartData.add(new PieChart.Data(dataLabel, item.getValue()));
         }
     }

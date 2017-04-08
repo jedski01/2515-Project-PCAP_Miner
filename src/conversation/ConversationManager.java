@@ -59,24 +59,15 @@ public class ConversationManager {
     }
 
     public void addFlow(Protocol protocol, String addressA, String addressB, Integer portA, Integer portB,
-                        int bytes, Timestamp time, int seq) {
+                        int bytes, Timestamp time, long seq) {
 
         String addressAEx = addressA + "port" +portA;
         String addressBEx = addressB + "port" +portB;
 
-        addFlow(protocol, addressAEx, addressBEx, bytes, time, seq);
-    }
-
-    public void addFlow(Protocol protocol, String addressA, String addressB,
-                        int bytes, Timestamp time, int option) {
-
-        ConversationID id = new ConversationID(addressA, addressB);
+        ConversationID id = new ConversationID(addressAEx, addressBEx);
         ConversationFlow flow;
-        if(protocol == Protocol.IPV4 || protocol == Protocol.IPV6) {
-            flow = new ConversationFlow(bytes, time, option, 0);
-        }else {
-            flow = new ConversationFlow(bytes, time, 0, option);
-        }
+
+        flow = new ConversationFlow(bytes, time, 0, seq);
 
         try {
             conversations.get(protocol).add(id, flow);
@@ -85,6 +76,41 @@ public class ConversationManager {
         }
 
     }
+
+    public void addFlow(Protocol protocol, String addressA, String addressB,
+                        int bytes, Timestamp time, int ttl) {
+
+        ConversationID id = new ConversationID(addressA, addressB);
+        ConversationFlow flow;
+
+        flow = new ConversationFlow(bytes, time, ttl, 0);
+
+        try {
+            conversations.get(protocol).add(id, flow);
+        } catch (NullPointerException e) {
+            System.out.printf("Conversation for %s does not exists. Skipping this protocol%n", protocol.toString());
+        }
+
+    }
+
+//    public void addFlow(Protocol protocol, String addressA, String addressB,
+//                        int bytes, Timestamp time, int option) {
+//
+//        ConversationID id = new ConversationID(addressA, addressB);
+//        ConversationFlow flow;
+//        if(protocol == Protocol.IPV4 || protocol == Protocol.IPV6) {
+//            flow = new ConversationFlow(bytes, time, option, 0);
+//        }else {
+//            flow = new ConversationFlow(bytes, time, 0, option);
+//        }
+//
+//        try {
+//            conversations.get(protocol).add(id, flow);
+//        } catch (NullPointerException e) {
+//            System.out.printf("Conversation for %s does not exists. Skipping this protocol%n", protocol.toString());
+//        }
+//
+//    }
 
     public void viewConversation() {
 

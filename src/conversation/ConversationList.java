@@ -3,6 +3,7 @@ package conversation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * ConversationList
@@ -42,7 +43,7 @@ public abstract class ConversationList {
         return conversations.get(id).size();
     }
 
-    public abstract ArrayList<ConversationModel> getSummarizedList();
+    public abstract List<ConversationModel> getSummarizedList();
 
     public static ConversationList getInstance() {
         return null;

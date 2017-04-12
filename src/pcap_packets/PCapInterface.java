@@ -2,13 +2,12 @@ package pcap_packets;
 
 import java.io.EOFException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import conversation.ConversationModel;
 import conversation.TcpConversationList;
-import javafx.scene.control.Alert;
 import org.pcap4j.core.NotOpenException;
 import org.pcap4j.core.PcapHandle;
 import org.pcap4j.core.PcapHandle.TimestampPrecision;
@@ -21,9 +20,8 @@ import static util.TimeUtil.getTimeDifferenceInSeconds;
 
 /**
  * PCapInterface
- * ACIT 2515 <Enter activity here>
- * <p>
- * <Enter a brief one sentence description of what this class is>
+ * ACIT 2515 Final Project
+ * Acting API to controllers. Controllers only communicate with this class
  *
  * @author Jed Iquin A00790108
  * @date 2017-03-24
@@ -41,7 +39,7 @@ public class PCapInterface {
     }
 
 
-    private static HashMap<Protocol, ArrayList<ConversationModel>> conversationModels = new HashMap<>();
+    private static HashMap<Protocol, List<ConversationModel>> conversationModels = new HashMap<>();
 
     public static ConversationManager conversationManager = ConversationManager.getInstance();
     public static PacketStat packetStat = PacketStat.getInstance();
@@ -78,10 +76,14 @@ public class PCapInterface {
         Timestamp start = null;
         Timestamp end = null;
         boolean errorFound = false;
+        boolean packetError = false;
         conversationManager.resetAll();
 
         while (!errorFound) {
-
+            packetError = false;
+            if (packetCount == 203331) {
+                System.out.println("hello");
+            }
             Packet packet = null;
             try {
                 packet = handle.getNextPacketEx();
@@ -98,61 +100,64 @@ public class PCapInterface {
                 saveStat(start, end, packetCount, packetSize, ipv4Count, ipv6Count, tcpCount, udpCount);
                 return true;
             } catch (Exception e) {
-                handle.close();
-                return false;
+                packetError = true;
 
             }
+            //skip packets with error
+            if(!packetError) {
+                Timestamp time = handle.getTimestamp();
+                StringBuilder addressA = new StringBuilder();
+                StringBuilder addressB = new StringBuilder();
+                Metrics metric = new Metrics();
 
-            Timestamp time = handle.getTimestamp();
-            StringBuilder addressA = new StringBuilder();
-            StringBuilder addressB = new StringBuilder();
-            Metrics metric = new Metrics();
+                packetSize += packet.length();
 
-            packetSize += packet.length();
+                if (packetCount == 0) {
+                    start = time;
+                }
 
-            if (packetCount == 0) {
-                start = time;
+                //read layer 2
+                if (processEthernetPackets(packet, addressA, addressB, metric)) {
+                    conversationManager.addFlow(Protocol.ETHERNET, addressA.toString(), addressB.toString(),
+                            metric.bytes, time);
+                }
+
+                if (processIPV4Packets(packet, addressA, addressB, metric)) {
+                    conversationManager.addFlow(Protocol.IPV4, addressA.toString(), addressB.toString(),
+                            metric.bytes, time, metric.ttl);
+                    ipv4Count++;
+                }
+
+                if (processIPV6Packets(packet, addressA, addressB, metric)) {
+                    conversationManager.addFlow(Protocol.IPV6, addressA.toString(), addressB.toString(),
+                            metric.bytes, time, metric.ttl);
+                    ipv6Count++;
+                }
+
+                processICMPv4Packets(packet, addressA, addressB, metric);
+                processICMPv6Packets(packet, addressA, addressB, metric);
+
+                if (processTCPPackets(packet, addressA, addressB, metric)) {
+                    conversationManager.addFlow(Protocol.TCP, addressA.toString(), addressB.toString(),
+                            metric.portA, metric.portB, metric.bytes, time, metric.seq);
+                    tcpCount++;
+                }
+
+                if (processUDPPackets(packet, addressA, addressB, metric)) {
+                    conversationManager.addFlow(Protocol.UDP, addressA.toString(), addressB.toString(),
+                            metric.portA, metric.portB, metric.bytes, time, 0);
+                    udpCount++;
+                }
+                end = time;
+                packetCount++;
             }
-            //read layer 2
-            if (processEthernetPackets(packet, addressA, addressB, metric)) {
-                conversationManager.addFlow(Protocol.ETHERNET, addressA.toString(), addressB.toString(),
-                                            metric.bytes, time);
-            }
 
-            if (processIPV4Packets(packet, addressA, addressB, metric)) {
-                conversationManager.addFlow(Protocol.IPV4, addressA.toString(), addressB.toString(),
-                                            metric.bytes, time, metric.ttl);
-                ipv4Count++;
-            }
-
-            if (processIPV6Packets(packet, addressA, addressB, metric)) {
-                conversationManager.addFlow(Protocol.IPV6, addressA.toString(), addressB.toString(),
-                                            metric.bytes, time, metric.ttl);
-                ipv6Count++;
-            }
-
-            processICMPv4Packets(packet, addressA, addressB, metric);
-            processICMPv6Packets(packet, addressA, addressB, metric);
-
-            if (processTCPPackets(packet, addressA, addressB, metric)) {
-                conversationManager.addFlow(Protocol.TCP, addressA.toString(), addressB.toString(),
-                        metric.portA, metric.portB, metric.bytes, time, metric.seq);
-                tcpCount++;
-            }
-
-            if (processUDPPackets(packet, addressA, addressB, metric)) {
-                conversationManager.addFlow(Protocol.UDP, addressA.toString(), addressB.toString(),
-                        metric.portA, metric.portB, metric.bytes, time, 0);
-                udpCount++;
-            }
-            end = time;
-            packetCount++;
 
         }
         return false;
     }
 
-    public static ArrayList<ConversationModel> getConversationModel(Protocol protocol) {
+    public static List<ConversationModel> getConversationModel(Protocol protocol) {
         return conversationModels.get(protocol);
     }
 

@@ -137,6 +137,7 @@ public class MainSceneController implements Initializable, ControlledScreen{
         PcapHandle handle = getPcapHandleFromFile(pcapFile);
         try {
             if(!PCapInterface.processPcapFile(handle)){
+
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Super PCAP Analyzer Message");
                 alert.setHeaderText("Program encountered an error");
@@ -168,8 +169,6 @@ public class MainSceneController implements Initializable, ControlledScreen{
             myController.setScreen(Main.barChartScreen, replaceablePane);
         }
 
-        //update table here
-        //((ConversationController)conversationController.get(Protocol.ETHERNET)).setData();
         updateTables();
 
     }

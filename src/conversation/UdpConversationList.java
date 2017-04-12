@@ -1,6 +1,7 @@
 package conversation;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -22,7 +23,7 @@ public class UdpConversationList extends ConversationList {
         return instance;
     }
     @Override
-    public ArrayList<ConversationModel> getSummarizedList() {
+    public List<ConversationModel> getSummarizedList() {
         ArrayList<ConversationModel> result = new ArrayList<>();
 
         Set<ConversationID> ids = conversations.keySet();
@@ -62,7 +63,7 @@ public class UdpConversationList extends ConversationList {
 
     @Override
     public void showConversation() {
-        ArrayList<ConversationModel> result = getSummarizedList();
+        List<ConversationModel> result = getSummarizedList();
 
         String format = "%-3d %-20s %-10s %-20s %-10d %-10d %-10d %-15d %-15d %-15d %-15d %-10f %-15f %-15f%n";
 

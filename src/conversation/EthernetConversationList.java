@@ -1,6 +1,7 @@
 package conversation;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -22,7 +23,7 @@ public class EthernetConversationList extends ConversationList {
     }
 
     @Override
-    public ArrayList<ConversationModel> getSummarizedList() {
+    public List<ConversationModel> getSummarizedList() {
 
         ArrayList<ConversationModel> result = new ArrayList<>();
 
@@ -50,14 +51,13 @@ public class EthernetConversationList extends ConversationList {
 
             result.add(cm);
         }
-
         return result;
     }
 
     @Override
     public void showConversation() {
 
-        ArrayList<ConversationModel> result = getSummarizedList();
+        List<ConversationModel> result = getSummarizedList();
 
         String format = "%-3d %-20s %-20s %-10d %-10d %-15d %-15d %-15d %-15d %-10f %-15f %-15f%n";
 

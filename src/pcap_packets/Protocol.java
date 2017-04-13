@@ -3,9 +3,10 @@ package pcap_packets;
 /**
  * Protocol
  * ACIT 2515 Activity name
- * Enter a brief one sentence description of what this class is
+ * Protocol enum for consistency
  *
  * @author Jed Iquin A00790108
+ * @author Patrick Rodriguez A00997571
  * @date 2017-03-25
  */
 public enum Protocol {

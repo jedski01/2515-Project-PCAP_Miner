@@ -7,10 +7,11 @@ import java.util.List;
 
 /**
  * ConversationList
- * ACIT 2515 Activity name
- * Enter a brief one sentence description of what this class is
+ * ACIT 2515 Final Project
+ * Abstract class for conversation between hosts
  *
  * @author Jed Iquin A00790108
+ * @author Patrick Rodriguez A00997571
  * @date 2017-03-25
  */
 public abstract class ConversationList {

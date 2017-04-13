@@ -24,6 +24,7 @@ import static util.TimeUtil.getTimeDifferenceInSeconds;
  * Acting API to controllers. Controllers only communicate with this class
  *
  * @author Jed Iquin A00790108
+ * @author Patrick Rodriguez A00997571
  * @date 2017-03-24
  */
 
@@ -47,18 +48,31 @@ public class PCapInterface {
 
     public static PcapHandle openPcapFile(String filename) throws Exception {
 
+        try {
+            Class.forName("android.support.v7.internal.view.menu.MenuBuilder");
+        } catch (ClassNotFoundException e) {
+            // Handle Exception by displaying an alert to user to update device firmware.
+        }catch (NoClassDefFoundError e){
+            // Handle Exception by displaying an alert to user to update device firmware.
+        }
+
         String PCAP_FILE_KEY = PCapInterface.class.getName() + ".pcapFile";
         String PCAP_FILE = System.getProperty(PCAP_FILE_KEY, filename);
-        PcapHandle handle;
+        PcapHandle handle = null;
         try {
             handle = Pcaps.openOffline(PCAP_FILE, TimestampPrecision.NANO);
         } catch (PcapNativeException e) {
             try {
                 handle = Pcaps.openOffline(PCAP_FILE);
             } catch (PcapNativeException ee) {
-                System.out.println(ee.toString());
+                //System.out.println(ee.toString());
                 throw new Exception(e.toString());
+            } catch (Exception  e1) {
+                //e1.printStackTrace();
+                return null;
             }
+        } catch (NoClassDefFoundError  e) {
+            e.printStackTrace();
         }
         return handle;
     }
@@ -81,9 +95,7 @@ public class PCapInterface {
 
         while (!errorFound) {
             packetError = false;
-            if (packetCount == 203331) {
-                System.out.println("hello");
-            }
+
             Packet packet = null;
             try {
                 packet = handle.getNextPacketEx();

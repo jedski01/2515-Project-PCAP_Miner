@@ -3,8 +3,15 @@ package conversation;
 import javafx.beans.property.*;
 
 /**
- * Created by Jed on 2017-03-28.
+ * ConversationModel
+ * ACIT 2515 Final Project
+ * Model for the conversation table in the fxml
+ *
+ * @author Jed Iquin A00790108
+ * @autho Patrick Rodriguez A00997571
+ * @date 2017-03-28
  */
+
 public class ConversationModel {
 
     private StringProperty addressA = new SimpleStringProperty();

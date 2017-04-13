@@ -14,8 +14,15 @@ import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 
 /**
- * Created by Jed on 2017-04-02.
+ * ConversationController
+ * ACIT 2515 Final Project
+ * Controller Super Class for every conversation
+ *
+ * @author Jed Iquin A00790108
+ * @author Patrick Rodriguez A00997571
+ * @date 2017-04-02
  */
+
 public class ConversationController implements Initializable{
 
     @FXML

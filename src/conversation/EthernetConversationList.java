@@ -6,10 +6,11 @@ import java.util.Set;
 
 /**
  * EthernetConversationList
- * ACIT 2515 Activity name
- * Enter a brief one sentence description of what this class is
+ * ACIT 2515 Final Project
+ * List of host conversation for Ethernet protocol
  *
  * @author Jed Iquin A00790108
+ * @autho Patrick Rodriguez A00997571
  * @date 2017-03-25
  */
 public class EthernetConversationList extends ConversationList {

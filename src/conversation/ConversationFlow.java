@@ -4,10 +4,11 @@ import java.sql.Timestamp;
 
 /**
  * ConversationFlow
- * ACIT 2515 Activity name
- * Enter a brief one sentence description of what this class is
+ * ACIT 2515 Final Project
+ * This holds information for each packet flow of a specific conversation between two hosts
  *
  * @author Jed Iquin A00790108
+ * @author Patrick Rodriguez A00997571
  * @date 2017-03-25
  */
 public class ConversationFlow {

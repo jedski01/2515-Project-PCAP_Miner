@@ -7,10 +7,11 @@ import java.util.HashMap;
 
 /**
  * ConversationManager
- * ACIT 2515 Activity name
- * Enter a brief one sentence description of what this class is
+ * ACIT 2515 Final Project
+ * Class that manages all the conversation lists
  *
  * @author Jed Iquin A00790108
+ * @author Patrick Rodriguez A00997571
  * @date 2017-03-25
  */
 public class ConversationManager {
@@ -92,25 +93,6 @@ public class ConversationManager {
         }
 
     }
-
-//    public void addFlow(Protocol protocol, String addressA, String addressB,
-//                        int bytes, Timestamp time, int option) {
-//
-//        ConversationID id = new ConversationID(addressA, addressB);
-//        ConversationFlow flow;
-//        if(protocol == Protocol.IPV4 || protocol == Protocol.IPV6) {
-//            flow = new ConversationFlow(bytes, time, option, 0);
-//        }else {
-//            flow = new ConversationFlow(bytes, time, 0, option);
-//        }
-//
-//        try {
-//            conversations.get(protocol).add(id, flow);
-//        } catch (NullPointerException e) {
-//            System.out.printf("Conversation for %s does not exists. Skipping this protocol%n", protocol.toString());
-//        }
-//
-//    }
 
     public void viewConversation() {
 

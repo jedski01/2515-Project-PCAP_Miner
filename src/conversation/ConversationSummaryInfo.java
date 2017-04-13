@@ -7,10 +7,11 @@ import util.TimeUtil;
 
 /**
  * ConversationSummaryInfo
- * ACIT 2515 Activity name
- * Enter a brief one sentence description of what this class is
+ * ACIT 2515 Final Project
+ * Process the flows and return a summarize info for a specific hosts conversation
  *
  * @author Jed Iquin A00790108
+ * @author Patrick Rodriguez A00997571
  * @date 2017-03-25
  */
 public class ConversationSummaryInfo {

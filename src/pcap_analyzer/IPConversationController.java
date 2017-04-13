@@ -10,8 +10,15 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Created by Jed on 2017-04-02.
+ * IPConversationController
+ * ACIT 2515 Final Project
+ * Controller for both ipv6 and ipv4 tables
+ *
+ * @author Jed Iquin A00790108
+ * @author Patrick Rodriguez A00997571
+ * @date 2017-04-02
  */
+
 public class IPConversationController extends ConversationController {
 
     @FXML

@@ -9,8 +9,15 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Created by Jed on 2017-04-02.
+ * TransportConversationController
+ * ACIT 2515 Final Project
+ * Controller for Layer4 Protocol Conversation Table
+ *
+ * @author Jed Iquin A00790108
+ * @author Patrick Rodriguez A00997571
+ * @date 2017-04-02
  */
+
 public class TransportConversationController  extends ConversationController{
 
     @FXML

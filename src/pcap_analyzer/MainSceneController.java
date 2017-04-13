@@ -29,8 +29,15 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 
 /**
- * Created by Jed on 2017-04-02.
+ * MainSceneController
+ * ACIT 2515 Final Project
+ * Controller for the main window
+ *
+ * @author Jed Iquin A00790108
+ * @author Patrick Rodriguez A00997571
+ * @date 2017-04-02
  */
+
 public class MainSceneController implements Initializable, ControlledScreen{
 
     private enum PieChartNames{
@@ -134,15 +141,18 @@ public class MainSceneController implements Initializable, ControlledScreen{
 
         //set the filename label
         //String fname = pcapFile.getName();
-        PcapHandle handle = getPcapHandleFromFile(pcapFile);
+        PcapHandle handle = null;
+        try {
+            handle = getPcapHandleFromFile(pcapFile);
+        } catch (IOException e) {
+            showAlert("Program encountered problems while parsing file. Operation aborted",
+                    Alert.AlertType.ERROR);
+            return;
+        }
         try {
             if(!PCapInterface.processPcapFile(handle)){
-
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Super PCAP Analyzer Message");
-                alert.setHeaderText("Program encountered an error");
-                alert.setContentText("Program encountered problems while parsing file. Operation aborted");
-                alert.showAndWait();
+                showAlert("Program encountered problems while parsing file. Operation aborted",
+                        Alert.AlertType.ERROR);
                 return;
             }
         } catch (PcapNativeException e) {
@@ -173,6 +183,13 @@ public class MainSceneController implements Initializable, ControlledScreen{
 
     }
 
+    private void showAlert(String msg, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle("Super PCAP Analyzer Message");
+        alert.setHeaderText("Program encountered an error");
+        alert.setContentText(msg);
+        alert.showAndWait();
+    }
     private File openFileDialogBox() {
         FileChooser fileChooser = new FileChooser();
 
@@ -187,15 +204,15 @@ public class MainSceneController implements Initializable, ControlledScreen{
         return pcapFile;
     }
 
-    private PcapHandle getPcapHandleFromFile(File file) {
+    private PcapHandle getPcapHandleFromFile(File file) throws IOException {
         String inpFileName = file.getAbsolutePath();
 
         PcapHandle handle = null;
         try {
             handle = PCapInterface.openPcapFile(inpFileName);
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Error! Cannot read file");
+            //e.printStackTrace();
+            throw new IOException("Problem reading file");
 
         }
 
@@ -346,6 +363,7 @@ public class MainSceneController implements Initializable, ControlledScreen{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
 
         for (PieChartNames name : PieChartNames.values()) {
             statDataItems.put(name, new ArrayList<DataItem>());

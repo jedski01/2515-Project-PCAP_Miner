@@ -1,9 +1,15 @@
 package pcap_packets;
 
-
 /**
- * Created by Jed on 2017-03-28.
+ * TransportConversationController
+ * ACIT 2515 Final Project
+ * Class that stores the statistics of the PCAP file
+ *
+ * @author Jed Iquin A00790108
+ * @author Patrick Rodriguez A00997571
+ * @date 2017-03-28
  */
+
 public class PacketStat {
 
     private static final PacketStat instance = new PacketStat();

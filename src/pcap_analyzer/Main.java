@@ -8,6 +8,16 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+/**
+ * Main
+ * ACIT 2515 Final Project
+ * Main Class
+ *
+ * @author Jed Iquin A00790108
+ * @author Patrick Rodriguez A00997571
+ * @date 2017-04-02
+ */
+
 public class Main extends Application {
 
     public static String mainScreen = "mainScreen";

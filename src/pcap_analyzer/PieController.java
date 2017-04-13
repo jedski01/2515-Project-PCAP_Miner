@@ -11,8 +11,15 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- * Created by Jed on 2017-04-02.
+ * PieController
+ * ACIT 2515 Final Project
+ * Controller for Pie Chart
+ *
+ * @author Jed Iquin A00790108
+ * @author Patrick Rodriguez A00997571
+ * @date 2017-04-02
  */
+
 public class PieController implements Initializable, ControlledScreen {
 
     @FXML

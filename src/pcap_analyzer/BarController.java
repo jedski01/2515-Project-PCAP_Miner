@@ -14,8 +14,15 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- * Created by Jed on 2017-04-02.
+ * BarController
+ * ACIT 2515 Final Project
+ * Controller for the BarChart
+ *
+ * @author Jed Iquin A00790108
+ * @author Patrick Rodriguez A00997571
+ * @date 2017-04-02
  */
+
 public class BarController implements Initializable, ControlledScreen{
 
     @FXML

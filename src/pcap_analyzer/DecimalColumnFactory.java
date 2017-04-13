@@ -6,9 +6,6 @@ import javafx.util.Callback;
 
 import java.text.DecimalFormat;
 
-/**
- * Created by Jed on 2017-04-02.
- */
 public class DecimalColumnFactory<S, T extends Number> implements Callback<TableColumn<S, T>, TableCell<S, T>> {
 
     private DecimalFormat format;

@@ -3,8 +3,16 @@ package util;
 import java.sql.Timestamp;
 
 /**
- * Created by Jed on 2017-03-28.
+ * TimeUtil
+ * ACIT 2515 Activity name
+ * Created my own util for calculating time differences
+ * to match wireshark's duration calculation in the conversations
+ *
+ * @author Jed Iquin A00790108
+ * @author Patrick Rodriguez A00997571
+ * @date 2017-03-28
  */
+
 public class TimeUtil {
 
     public static double getTimeDifferenceInSeconds(Timestamp start, Timestamp end) {

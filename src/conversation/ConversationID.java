@@ -2,10 +2,11 @@ package conversation;
 
 /**
  * ConversationID
- * ACIT 2515 Activity name
- * Enter a brief one sentence description of what this class is
+ * ACIT 2515 Final Project
+ * ID for conversation list to handle unique pairs of hosts
  *
  * @author Jed Iquin A00790108
+ * @author Patrick Rodriguez A00997571
  * @date 2017-03-25
  */
 

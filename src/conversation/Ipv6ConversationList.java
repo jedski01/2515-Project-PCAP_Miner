@@ -6,10 +6,11 @@ import java.util.Set;
 
 /**
  * Ipv6ConversationList
- * ACIT 2515 Activity name
- * Enter a brief one sentence description of what this class is
+ * ACIT 2515 Final Project
+ * List of IPv6 conversation between hosts for IPv6 Protocol
  *
  * @author Jed Iquin A00790108
+ * @author Patrick Rodriguez A00997571
  * @date 2017-03-25
  */
 //TODO [jed] : implement ipv6 conversation

@@ -10,5 +10,5 @@ package pcap_packets;
  * @date 2017-03-25
  */
 public enum Protocol {
-    ETHERNET, IPV4, IPV6, TCP, UDP
+    ETHERNET, IPV4, IPV6, TCP, UDP 
 }
